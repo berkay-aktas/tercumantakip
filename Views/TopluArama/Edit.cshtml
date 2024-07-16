@@ -1,0 +1,69 @@
+﻿@model TercumanTakipWeb.Models.isTakipListesi_TopluArama
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>isTakipListesi_TopluArama</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Dil" class="control-label"></label>
+                <input asp-for="Dil" class="form-control" />
+                <span asp-validation-for="Dil" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AramaBasligi" class="control-label"></label>
+                <input asp-for="AramaBasligi" class="form-control" />
+                <span asp-validation-for="AramaBasligi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OfisListesi" class="control-label"></label>
+                <input asp-for="OfisListesi" class="form-control" />
+                <span asp-validation-for="OfisListesi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DestekTarihi" class="control-label"></label>
+                <input asp-for="DestekTarihi" class="form-control" />
+                <span asp-validation-for="DestekTarihi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AramaSayisi" class="control-label"></label>
+                <input asp-for="AramaSayisi" class="form-control" />
+                <span asp-validation-for="AramaSayisi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EkBilgi" class="control-label"></label>
+                <input asp-for="EkBilgi" class="form-control" />
+                <span asp-validation-for="EkBilgi" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="id" />
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="control-label"></label>
+                <input asp-for="KullaniciAdi" class="form-control" />
+                <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KayitTarihi" class="control-label"></label>
+                <input asp-for="KayitTarihi" class="form-control" />
+                <span asp-validation-for="KayitTarihi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,101 @@
+﻿@model IEnumerable<TercumanTakipWeb.Models.isTakipListesi_Yuzyuze>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Dil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DosyaNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KimlikNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TalepKisi_Birim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OfisListesi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DestekTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BaslangicSaati)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BitisSaati)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GorusmeSayisi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EkBilgi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KullaniciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KayitTarihi)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Dil)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DosyaNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KimlikNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TalepKisi_Birim)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OfisListesi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DestekTarihi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BaslangicSaati)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BitisSaati)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GorusmeSayisi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EkBilgi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KullaniciAdi)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KayitTarihi)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

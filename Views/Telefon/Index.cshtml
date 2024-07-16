@@ -1,0 +1,207 @@
+﻿@model TelefonVM
+
+@{
+    ViewData["Title"] = "Telefon Desteği";
+}
+
+<h2>Yapılan Arama Listesi</h2>
+
+<p>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateModal">
+        Yeni Telefon
+    </button>
+</p>
+
+<table class="table" id="TelefonGrid">
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.KullaniciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.KayitTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.KimlikNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.Dil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.TalepKisi_Birim)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.OfisListesi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.DestekTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_Telefon.GorusmeSayisi)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.isTakipListesi_TelefonList)
+        {
+            <tr>
+                <td>  <a asp-action="Details" asp-route-id="@item.id" class="btn btn-success">Detay</a> </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KullaniciAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KayitTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KimlikNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TalepKisi_Birim)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfisListesi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestekTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GorusmeSayisi)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="Create">
+    <!-- Modal -->
+    <div class="modal fade" id="CreateModal" tabindex="-1" aria-labelledby="CreateModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateModal">Yeni Arama Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mb-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-12 grid-margin">
+                               
+                               
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+
+                                            <label asp-for="isTakipListesi_Telefon.DosyaNo" class="control-label"></label>
+                                                <input asp-for="isTakipListesi_Telefon.DosyaNo" class="form-control"/>
+                                                <span asp-validation-for="isTakipListesi_Telefon.DosyaNo" class="text-danger"></span>
+
+
+                                            <label asp-for="isTakipListesi_Telefon.Dil" class="control-label"></label>
+                                                <div class="list-group checkbox-group required">
+                                                    @for (int i = 0; i < Model.DilListesi.Count; i++)
+                                                    {
+                                                        <label class="list-group-item">
+                                                            <input asp-for="@Model.DilCheckbox[i].isChecked" class="form-check-input me-1" type="checkbox">
+                                                            @Model.DilListesi[i]
+                                                        </label>
+                                                        <input type="hidden" value="@Model.DilListesi[i]" asp-for="@Model.DilCheckbox[i].Dil" />
+                                                    }
+                                                </div>
+                                                <span asp-validation-for="isTakipListesi_Telefon.Dil" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                            <label asp-for="isTakipListesi_Telefon.KimlikNo" class="control-label"></label>
+                                                <input asp-for="isTakipListesi_Telefon.KimlikNo" class="form-control" placeholder="Kimlik Numarası"/>
+                                                <span asp-validation-for="isTakipListesi_Telefon.KimlikNo" class="text-danger"></span>
+                                                
+                                                        <label asp-for="isTakipListesi_Telefon.BaslangicSaati" class="control-label"></label>
+                                                        <input asp-for="isTakipListesi_Telefon.BaslangicSaati" class="form-control" type="time" />
+                                                        <span asp-validation-for="isTakipListesi_Telefon.BaslangicSaati" class="text-danger"></span>
+                                                    
+                                                
+                                                        <label asp-for="isTakipListesi_Telefon.BitisSaati" class="control-label"></label>
+                                                        <input asp-for="isTakipListesi_Telefon.BitisSaati" class="form-control" type="time"/>
+                                                        <span asp-validation-for="isTakipListesi_Telefon.BitisSaati" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                       
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="isTakipListesi_Telefon.TalepKisi_Birim" class="control-label"></label>
+                                                <input asp-for="isTakipListesi_Telefon.TalepKisi_Birim" class="form-control" />
+                                                <span asp-validation-for="isTakipListesi_Telefon.TalepKisi_Birim" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="OfisListesi" class="control-label"></label>
+                                                <select asp-items="@Model.OfisListesi" asp-for="isTakipListesi_Telefon.OfisListesi"  class="form-control"><option>Ofis Seçiniz</option></select>
+                                                <span asp-validation-for="OfisListesi" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="isTakipListesi_Telefon.DestekTarihi" class="control-label"></label>
+                                                <input asp-for="isTakipListesi_Telefon.DestekTarihi" class="form-control" type="date"/>
+                                                <span asp-validation-for="isTakipListesi_Telefon.DestekTarihi" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                                <label asp-for="isTakipListesi_Telefon.GorusmeSayisi" class="control-label"></label>
+                                                <input asp-for="isTakipListesi_Telefon.GorusmeSayisi" class="form-control" type="number"/>
+                                                <span asp-validation-for="isTakipListesi_Telefon.GorusmeSayisi" class="text-danger"></span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group row">
+                                               @*  <label asp-for="isTakipListesi_Telefon.EkBilgi" class="control-label"></label>
+                                            <textarea asp-for="isTakipListesi_Telefon.EkBilgi" class="form-control"> </textarea>
+                                                <span asp-validation-for="isTakipListesi_Telefon.EkBilgi" class="text-danger"></span> *@
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="form-group row">
+                                    <label asp-for="isTakipListesi_Telefon.EkBilgi" class="control-label"></label>
+                                    <textarea asp-for="isTakipListesi_Telefon.EkBilgi" class="form-control"> </textarea>
+                                    <span asp-validation-for="isTakipListesi_Telefon.EkBilgi" class="text-danger"></span>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="submit" value="Save" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        //DataTable('#TelefonGrid')
+        $('#TelefonGrid').DataTable()
+    </script>
+
+}
