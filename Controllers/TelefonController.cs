@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
@@ -22,13 +18,13 @@ namespace TercumanTakipWeb.Controllers
         // GET: Telefon
         public async Task<IActionResult> Index(int? id)
         {
-            TelefonVM telefonVM=new TelefonVM();
-            telefonVM.isTakipListesi_Telefon= await _context.isTakipListesi_Telefon.FindAsync(id);
+            TelefonVM telefonVM = new TelefonVM();
+            telefonVM.isTakipListesi_Telefon = await _context.isTakipListesi_Telefon.FindAsync(id);
             telefonVM.isTakipListesi_TelefonList = await _context.isTakipListesi_Telefon.ToListAsync();
             var dilListDB = await _context.DilListesi.ToListAsync();
             telefonVM.OfisListesi = GetOfisList();
             telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-            return View(telefonVM);   
+            return View(telefonVM);
         }
 
         // GET: Telefon/Details/5
@@ -46,7 +42,7 @@ namespace TercumanTakipWeb.Controllers
             telefonVM.OfisListesi = GetOfisList();
             telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
 
-               
+
             if (isTakipListesi_Telefon == null)
             {
                 return NotFound();
@@ -60,8 +56,8 @@ namespace TercumanTakipWeb.Controllers
             var ofisList = _context.OfisListesi.Select(i => new SelectListItem
             {
                 Text = i.OfisAdi,
-                Value=i.OfisAdi
-            }).Distinct().OrderBy(x=>x.Text).ToList();
+                Value = i.OfisAdi
+            }).Distinct().OrderBy(x => x.Text).ToList();
 
             return ofisList;
         }
@@ -169,7 +165,6 @@ namespace TercumanTakipWeb.Controllers
             //return View(telefonVM.isTakipListesi_Telefon);
         }
 
-
         // POST: Telefon/Delete/5
         //[HttpPost, ActionName("Delete")]
         //[ValidateAntiForgeryToken]
@@ -184,14 +179,14 @@ namespace TercumanTakipWeb.Controllers
             {
                 _context.isTakipListesi_Telefon.Remove(isTakipListesi_Telefon);
             }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         private bool isTakipListesi_TelefonExists(int id)
         {
-          return (_context.isTakipListesi_Telefon?.Any(e => e.id == id)).GetValueOrDefault();
+            return (_context.isTakipListesi_Telefon?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

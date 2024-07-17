@@ -1,60 +1,144 @@
-﻿@model TercumanTakipWeb.Models.isTakipListesi_YaziliCeviri
+﻿@model TercumanTakipWeb.Models.ViewModels.YaziliCeviriVM
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detaylar";
 }
 
-<h1>Details</h1>
+<head>
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-<div>
-    <h4>isTakipListesi_YaziliCeviri</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Dil)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Dil)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CeviriKonusu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CeviriKonusu)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CeviriTarihi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CeviriTarihi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.KelimeSayisi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.KelimeSayisi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.EkBilgi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.EkBilgi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.KullaniciAdi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.KullaniciAdi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.KayitTarihi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.KayitTarihi)
-        </dd>
-    </dl>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
+</head>
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h3>Dosya Bilgileri</h3>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Dil</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.Dil)</dd>
+
+                <dt class="col-sm-3">Çeviri Konusu</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.CeviriKonusu)</dd>
+
+                <dt class="col-sm-3">Çeviri Tarihi</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.CeviriTarihi)</dd>
+
+                <dt class="col-sm-3">Kelime Sayısı</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.KelimeSayisi)</dd>
+
+                <dt class="col-sm-3">Ek Bilgi</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.EkBilgi)</dd>
+
+                <dt class="col-sm-3">Kullanıcı Adı</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.isTakipListesi_YaziliCeviri.KullaniciAdi)</dd>
+
+                <dt class="col-sm-3">Kayıt Tarihi</dt>
+                <dd class="col-sm-9">@string.Format("{0:dd/MM/yyyy}", Model.isTakipListesi_YaziliCeviri.KayitTarihi)</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        @* <a asp-action="Edit" asp-route-id="@Model.id" class="btn btn-primary">Düzenle</a> *@
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#EditModal">Düzenle </button>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete('@Model.isTakipListesi_YaziliCeviri.id')">Sil</button>
+        <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+<div class="modal fade" id="EditModal" tabindex="-1" aria-labelledby="EditModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aramayı Düzenle</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Edit" asp-route-id="@Model.isTakipListesi_YaziliCeviri.id">
+                    <input asp-for="isTakipListesi_YaziliCeviri.id" hidden />
+                    <input asp-for="isTakipListesi_YaziliCeviri.KullaniciAdi" hidden />
+
+                    <div class="form-group">
+                        <label asp-for="isTakipListesi_YaziliCeviri.Dil" class="control-label"></label>
+                        <div class="list-group checkbox-group required">
+                            @for (int i = 0; i < Model.DilListesi.Count; i++)
+                            {
+                                <label class="list-group-item">
+                                    <input asp-for="@Model.DilCheckbox[i].isChecked" class="form-check-input me-1" type="checkbox">
+                                    @Model.DilListesi[i]
+                                </label>
+                                <input type="hidden" value="@Model.DilListesi[i]" asp-for="@Model.DilCheckbox[i].Dil" />
+                            }
+                        </div>
+                        <span asp-validation-for="isTakipListesi_YaziliCeviri.Dil" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="isTakipListesi_YaziliCeviri.CeviriKonusu" class="control-label"></label>
+                        <input asp-for="isTakipListesi_YaziliCeviri.CeviriKonusu" class="form-control" />
+                        <span asp-validation-for="isTakipListesi_YaziliCeviri.CeviriKonusu" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="isTakipListesi_YaziliCeviri.CeviriTarihi" class="control-label"></label>
+                        <input asp-for="isTakipListesi_YaziliCeviri.CeviriTarihi" class="form-control" type="date" />
+                        <span asp-validation-for="isTakipListesi_YaziliCeviri.CeviriTarihi" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="isTakipListesi_YaziliCeviri.KelimeSayisi" class="control-label"></label>
+                        <input asp-for="isTakipListesi_YaziliCeviri.KelimeSayisi" class="form-control" type="number" />
+                        <span asp-validation-for="isTakipListesi_YaziliCeviri.KelimeSayisi" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="isTakipListesi_YaziliCeviri.EkBilgi" class="control-label"></label>
+                        <textarea asp-for="isTakipListesi_YaziliCeviri.EkBilgi" class="form-control"></textarea>
+                        <span asp-validation-for="isTakipListesi_YaziliCeviri.EkBilgi" class="text-danger"></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit" class="btn btn-primary">Düzenlemeyi Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+
+    <script>
+        function confirmDelete(itemId) {
+            Swal.fire({
+                title: 'Emin misiniz?',
+                text: "Bu işlem geri alınamaz!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Evet, sil!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/YaziliCeviri/Delete/' + itemId,
+                        type: 'POST',
+                        success: function (response) {
+                            Swal.fire('Silindi!', 'Kayıt başarıyla silindi.', 'success').then(() => {
+                                window.location.href = '/YaziliCeviri/Index';
+                            });
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire('Hata!', 'Silme işlemi başarısız oldu.', 'error');
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+}

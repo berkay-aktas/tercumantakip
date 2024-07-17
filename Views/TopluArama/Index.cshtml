@@ -1,77 +1,179 @@
-﻿@model IEnumerable<TercumanTakipWeb.Models.isTakipListesi_TopluArama>
+﻿@model TopluAramaVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Toplu Arama";
 }
 
-<h1>Index</h1>
+<h2>Yapılan Toplu Aramalar</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateModal">
+        Yeni Toplu Arama
+    </button>
 </p>
-<table class="table">
+
+<head>
+    <style>
+        #TopluAramaGrid th,
+        #TopluAramaGrid td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<table class="table" id="TopluAramaGrid">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Dil)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AramaBasligi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OfisListesi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DestekTarihi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AramaSayisi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EkBilgi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KullaniciAdi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KayitTarihi)
-            </th>
             <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.KullaniciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.KayitTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.AramaBasligi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.Dil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.OfisListesi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.DestekTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.AramaSayisi)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dil)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AramaBasligi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.OfisListesi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DestekTarihi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AramaSayisi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EkBilgi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KullaniciAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KayitTarihi)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.isTakipListesi_TopluAramaList)
+        {
+            <tr>
+                <td>  <a asp-action="Details" asp-route-id="@item.id" class="btn btn-success">Detay</a> </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KullaniciAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KayitTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AramaBasligi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OfisListesi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DestekTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AramaSayisi)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<form asp-action="Create">
+    <!-- Modal -->
+    <div class="modal fade" id="CreateModal" tabindex="-1" aria-labelledby="CreateModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateModal">Yeni Arama Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mb-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-12 grid-margin">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="isTakipListesi_TopluArama.Dil" class="control-label"></label>
+                                            <div class="list-group checkbox-group required">
+                                                @for (int i = 0; i < Model.DilListesi.Count; i++)
+                                                {
+                                                    <label class="list-group-item">
+                                                        <input asp-for="@Model.DilCheckbox[i].isChecked" class="form-check-input me-1" type="checkbox">
+                                                        @Model.DilListesi[i]
+                                                    </label>
+                                                    <input type="hidden" value="@Model.DilListesi[i]" asp-for="@Model.DilCheckbox[i].Dil" />
+                                                }
+                                            </div>
+                                            <span asp-validation-for="isTakipListesi_TopluArama.Dil" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="isTakipListesi_TopluArama.AramaBasligi" class="control-label"></label>
+                                            <textarea asp-for="isTakipListesi_TopluArama.AramaBasligi" class="form-control"> </textarea>
+                                            <span asp-validation-for="isTakipListesi_TopluArama.AramaBasligi" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="OfisListesi" class="control-label"></label>
+                                            <select asp-items="@Model.OfisListesi" asp-for="isTakipListesi_TopluArama.OfisListesi" class="form-control"><option>Ofis Seçiniz</option></select>
+                                            <span asp-validation-for="OfisListesi" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="isTakipListesi_TopluArama.DestekTarihi" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_TopluArama.DestekTarihi" class="form-control" type="date" />
+                                            <span asp-validation-for="isTakipListesi_TopluArama.DestekTarihi" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="isTakipListesi_TopluArama.AramaSayisi" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_TopluArama.AramaSayisi" class="form-control" type="number" />
+                                            <span asp-validation-for="isTakipListesi_TopluArama.AramaSayisi" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="isTakipListesi_TopluArama.EkBilgi" class="control-label"></label>
+                                    <textarea asp-for="isTakipListesi_TopluArama.EkBilgi" class="form-control"> </textarea>
+                                    <span asp-validation-for="isTakipListesi_TopluArama.EkBilgi" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                        <button type="submit" value="Save" class="btn btn-primary">Kaydet</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+</form>
+
+
+@section Scripts {
+    <script>
+        //DataTable('#TopluAramaGrid')
+        $('#TopluAramaGrid').DataTable()
+    </script>
+
+}

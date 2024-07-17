@@ -5,7 +5,7 @@ namespace TercumanTakipWeb.Models
     public class isTakipListesi_Telefon:BaseEntity
     {
         public string? Dil { get; set; }
-        [Display(Name ="Dosya No")]
+        [Display(Name = "Dosya No")]
         public string? DosyaNo { get; set; }
         [Display(Name = "Kimlik No")]
         public string? KimlikNo { get; set; }

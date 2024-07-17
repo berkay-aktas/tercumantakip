@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
+using TercumanTakipWeb.Models.ViewModels;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -19,33 +16,50 @@ namespace TercumanTakipWeb.Controllers
         }
 
         // GET: Yuzyuze
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.isTakipListesi_Yuzyuze.ToListAsync());
+            YuzyuzeVM yuzyuzeVM = new YuzyuzeVM();
+            yuzyuzeVM.isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FindAsync(id);
+            yuzyuzeVM.isTakipListesi_YuzyuzeList = await _context.isTakipListesi_Yuzyuze.ToListAsync();
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            yuzyuzeVM.OfisListesi = GetOfisList();
+            yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+            return View(yuzyuzeVM);
         }
 
         // GET: Yuzyuze/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || _context.isTakipListesi_Yuzyuze == null)
             {
                 return NotFound();
             }
+            var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FirstOrDefaultAsync(m => m.id == id);
 
-            var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze
-                .FirstOrDefaultAsync(m => m.id == id);
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            YuzyuzeVM yuzyuzeVM = new();
+            yuzyuzeVM.isTakipListesi_Yuzyuze = isTakipListesi_Yuzyuze;
+            yuzyuzeVM.OfisListesi = GetOfisList();
+            yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+
             if (isTakipListesi_Yuzyuze == null)
             {
                 return NotFound();
             }
 
-            return View(isTakipListesi_Yuzyuze);
+            return View(yuzyuzeVM);
         }
 
-        // GET: Yuzyuze/Create
-        public IActionResult Create()
+        private List<SelectListItem> GetOfisList()
         {
-            return View();
+            var ofisList = _context.OfisListesi.Select(i => new SelectListItem
+            {
+                Text = i.OfisAdi,
+                Value = i.OfisAdi
+            }).Distinct().OrderBy(x => x.Text).ToList();
+
+            return ofisList;
         }
 
         // POST: Yuzyuze/Create
@@ -53,31 +67,53 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dil,DosyaNo,KimlikNo,TalepKisi_Birim,OfisListesi,DestekTarihi,BaslangicSaati,BitisSaati,GorusmeSayisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_Yuzyuze isTakipListesi_Yuzyuze)
+        public async Task<IActionResult> Create(YuzyuzeVM yuzyuzeVM)
         {
-            if (ModelState.IsValid)
+            string languageList = "";
+
+            for (int i = 0; i < yuzyuzeVM.DilCheckbox.Count; i++)
             {
-                _context.Add(isTakipListesi_Yuzyuze);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (yuzyuzeVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += yuzyuzeVM.DilCheckbox[i].Dil + ",";
+                }
             }
-            return View(isTakipListesi_Yuzyuze);
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            yuzyuzeVM.isTakipListesi_Yuzyuze.Dil = languageList;
+
+            //Kullanicilar user = _userService.GetUserClaims(User);
+
+            string currentUser = User.Identity.Name;
+            yuzyuzeVM.isTakipListesi_Yuzyuze.KullaniciAdi = currentUser;
+
+            //if (ModelState.IsValid)
+
+            _context.Add(yuzyuzeVM.isTakipListesi_Yuzyuze);
+            await _context.SaveChangesAsync();
+            TempData["success"] = "success";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Yuzyuze/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FindAsync(id);
             if (isTakipListesi_Yuzyuze == null)
             {
                 return NotFound();
             }
-            return View(isTakipListesi_Yuzyuze);
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            YuzyuzeVM yuzyuzeVM = new();
+            yuzyuzeVM.isTakipListesi_Yuzyuze = isTakipListesi_Yuzyuze;
+            yuzyuzeVM.OfisListesi = GetOfisList();
+            yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            return View(yuzyuzeVM);
         }
 
         // POST: Yuzyuze/Edit/5
@@ -85,23 +121,37 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Dil,DosyaNo,KimlikNo,TalepKisi_Birim,OfisListesi,DestekTarihi,BaslangicSaati,BitisSaati,GorusmeSayisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_Yuzyuze isTakipListesi_Yuzyuze)
+        public async Task<IActionResult> Edit(int id, YuzyuzeVM yuzyuzeVM)
         {
-            if (id != isTakipListesi_Yuzyuze.id)
+            if (id != yuzyuzeVM.isTakipListesi_Yuzyuze.id)
             {
                 return NotFound();
             }
+            string languageList = "";
 
-            if (ModelState.IsValid)
+            for (int i = 0; i < yuzyuzeVM.DilCheckbox.Count; i++)
+            {
+                if (yuzyuzeVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += yuzyuzeVM.DilCheckbox[i].Dil + ",";
+                }
+            }
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            yuzyuzeVM.isTakipListesi_Yuzyuze.Dil = languageList;
+
+            //if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(isTakipListesi_Yuzyuze);
+                    _context.Update(yuzyuzeVM.isTakipListesi_Yuzyuze);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!isTakipListesi_YuzyuzeExists(isTakipListesi_Yuzyuze.id))
+                    if (!isTakipListesi_YuzyuzeExists(yuzyuzeVM.isTakipListesi_Yuzyuze.id))
                     {
                         return NotFound();
                     }
@@ -112,32 +162,18 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(isTakipListesi_Yuzyuze);
-        }
-
-        // GET: Yuzyuze/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (isTakipListesi_Yuzyuze == null)
-            {
-                return NotFound();
-            }
-
-            return View(isTakipListesi_Yuzyuze);
+            //return View(yuzyuzeVM.isTakipListesi_Yuzyuze);
         }
 
         // POST: Yuzyuze/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (_context.isTakipListesi_Yuzyuze == null)
+            {
+                return Problem("Entity set 'TercumanTakipDbContext.isTakipListesi_Yuzyuze'  is null.");
+            }
             var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FindAsync(id);
             if (isTakipListesi_Yuzyuze != null)
             {
@@ -150,7 +186,7 @@ namespace TercumanTakipWeb.Controllers
 
         private bool isTakipListesi_YuzyuzeExists(int id)
         {
-            return _context.isTakipListesi_Yuzyuze.Any(e => e.id == id);
+            return (_context.isTakipListesi_Yuzyuze?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

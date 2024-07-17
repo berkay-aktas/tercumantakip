@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
+using TercumanTakipWeb.Models.ViewModels;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -19,33 +16,50 @@ namespace TercumanTakipWeb.Controllers
         }
 
         // GET: TopluArama
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.isTakipListesi_TopluArama.ToListAsync());
+            TopluAramaVM topluAramaVM = new TopluAramaVM();
+            topluAramaVM.isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FindAsync(id);
+            topluAramaVM.isTakipListesi_TopluAramaList = await _context.isTakipListesi_TopluArama.ToListAsync();
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+            return View(topluAramaVM);
         }
 
         // GET: TopluArama/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || _context.isTakipListesi_TopluArama == null)
             {
                 return NotFound();
             }
+            var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FirstOrDefaultAsync(m => m.id == id);
 
-            var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama
-                .FirstOrDefaultAsync(m => m.id == id);
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            TopluAramaVM topluAramaVM = new();
+            topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
+            topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+
             if (isTakipListesi_TopluArama == null)
             {
                 return NotFound();
             }
 
-            return View(isTakipListesi_TopluArama);
+            return View(topluAramaVM);
         }
 
-        // GET: TopluArama/Create
-        public IActionResult Create()
+        private List<SelectListItem> GetOfisList()
         {
-            return View();
+            var ofisList = _context.OfisListesi.Select(i => new SelectListItem
+            {
+                Text = i.OfisAdi,
+                Value = i.OfisAdi
+            }).Distinct().OrderBy(x => x.Text).ToList();
+
+            return ofisList;
         }
 
         // POST: TopluArama/Create
@@ -53,31 +67,53 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dil,AramaBasligi,OfisListesi,DestekTarihi,AramaSayisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_TopluArama isTakipListesi_TopluArama)
+        public async Task<IActionResult> Create(TopluAramaVM topluAramaVM)
         {
-            if (ModelState.IsValid)
+            string languageList = "";
+
+            for (int i = 0; i < topluAramaVM.DilCheckbox.Count; i++)
             {
-                _context.Add(isTakipListesi_TopluArama);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (topluAramaVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += topluAramaVM.DilCheckbox[i].Dil + ",";
+                }
             }
-            return View(isTakipListesi_TopluArama);
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            topluAramaVM.isTakipListesi_TopluArama.Dil = languageList;
+
+            //Kullanicilar user = _userService.GetUserClaims(User);
+
+            string currentUser = User.Identity.Name;
+            topluAramaVM.isTakipListesi_TopluArama.KullaniciAdi = currentUser;
+
+            //if (ModelState.IsValid)
+
+            _context.Add(topluAramaVM.isTakipListesi_TopluArama);
+            await _context.SaveChangesAsync();
+            TempData["success"] = "success";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: TopluArama/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FindAsync(id);
             if (isTakipListesi_TopluArama == null)
             {
                 return NotFound();
             }
-            return View(isTakipListesi_TopluArama);
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            TopluAramaVM topluAramaVM = new();
+            topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
+            topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            return View(topluAramaVM);
         }
 
         // POST: TopluArama/Edit/5
@@ -85,23 +121,37 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Dil,AramaBasligi,OfisListesi,DestekTarihi,AramaSayisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_TopluArama isTakipListesi_TopluArama)
+        public async Task<IActionResult> Edit(int id, TopluAramaVM topluAramaVM)
         {
-            if (id != isTakipListesi_TopluArama.id)
+            if (id != topluAramaVM.isTakipListesi_TopluArama.id)
             {
                 return NotFound();
             }
+            string languageList = "";
 
-            if (ModelState.IsValid)
+            for (int i = 0; i < topluAramaVM.DilCheckbox.Count; i++)
+            {
+                if (topluAramaVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += topluAramaVM.DilCheckbox[i].Dil + ",";
+                }
+            }
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            topluAramaVM.isTakipListesi_TopluArama.Dil = languageList;
+
+            //if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(isTakipListesi_TopluArama);
+                    _context.Update(topluAramaVM.isTakipListesi_TopluArama);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!isTakipListesi_TopluAramaExists(isTakipListesi_TopluArama.id))
+                    if (!isTakipListesi_TopluAramaExists(topluAramaVM.isTakipListesi_TopluArama.id))
                     {
                         return NotFound();
                     }
@@ -112,32 +162,16 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(isTakipListesi_TopluArama);
-        }
-
-        // GET: TopluArama/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (isTakipListesi_TopluArama == null)
-            {
-                return NotFound();
-            }
-
-            return View(isTakipListesi_TopluArama);
+            //return View(topluAramaVM.isTakipListesi_topluArama);
         }
 
         // POST: TopluArama/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (_context.isTakipListesi_TopluArama == null)
+            {
+                return Problem("Entity set 'TercumanTakipDbContext.isTakipListesi_TopluArama'  is null.");
+            }
             var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FindAsync(id);
             if (isTakipListesi_TopluArama != null)
             {
@@ -150,7 +184,7 @@ namespace TercumanTakipWeb.Controllers
 
         private bool isTakipListesi_TopluAramaExists(int id)
         {
-            return _context.isTakipListesi_TopluArama.Any(e => e.id == id);
+            return (_context.isTakipListesi_TopluArama?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

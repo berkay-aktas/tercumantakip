@@ -130,20 +130,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVGVsZWZvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/TopluArama/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9wbHVBcmFtYVxDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/TopluArama/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9wbHVBcmFtYVxEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/TopluArama/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9wbHVBcmFtYVxEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/TopluArama/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVG9wbHVBcmFtYVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/TopluArama/Index.cshtml]
@@ -154,40 +142,16 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/YaziliCeviri/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF6aWxpQ2V2aXJpXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/YaziliCeviri/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF6aWxpQ2V2aXJpXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/YaziliCeviri/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF6aWxpQ2V2aXJpXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/YaziliCeviri/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF6aWxpQ2V2aXJpXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/YaziliCeviri/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWWF6aWxpQ2V2aXJpXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/Yuzyuze/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWXV6eXV6ZVxDcmVhdGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/Yuzyuze/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWXV6eXV6ZVxEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/Yuzyuze/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWXV6eXV6ZVxEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/Yuzyuze/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcWXV6eXV6ZVxFZGl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/Yuzyuze/Index.cshtml]
