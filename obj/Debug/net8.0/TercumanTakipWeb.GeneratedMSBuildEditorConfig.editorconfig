@@ -30,36 +30,12 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlsTGlzdGVzaVxDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DilListesi/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlsTGlzdGVzaVxEZWxldGUuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DilListesi/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlsTGlzdGVzaVxEZXRhaWxzLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DilListesi/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlsTGlzdGVzaVxFZGl0LmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DilListesi/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlsTGlzdGVzaVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DisGorev/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzR29yZXZcQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DisGorev/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzR29yZXZcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DisGorev/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzR29yZXZcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DisGorev/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzR29yZXZcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/DisGorev/Index.cshtml]
@@ -74,20 +50,8 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/MigrantTV/Create.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlncmFudFRWXENyZWF0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/MigrantTV/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlncmFudFRWXERlbGV0ZS5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/MigrantTV/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlncmFudFRWXERldGFpbHMuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/MigrantTV/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWlncmFudFRWXEVkaXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/MigrantTV/Index.cshtml]
@@ -96,18 +60,6 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/OfisListesi/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2Zpc0xpc3Rlc2lcQ3JlYXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/OfisListesi/Delete.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2Zpc0xpc3Rlc2lcRGVsZXRlLmNzaHRtbA==
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/OfisListesi/Details.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2Zpc0xpc3Rlc2lcRGV0YWlscy5jc2h0bWw=
-build_metadata.AdditionalFiles.CssScope = 
-
-[C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/OfisListesi/Edit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT2Zpc0xpc3Rlc2lcRWRpdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/berkay.aktas/source/repos/TercumanTakipWeb/tercumantakip/Views/OfisListesi/Index.cshtml]

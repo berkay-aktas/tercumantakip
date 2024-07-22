@@ -1,95 +1,204 @@
-﻿@model IEnumerable<TercumanTakipWeb.Models.isTakipListesi_DisGorev>
+﻿@model DisGorevVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Dış Görev";
+    ViewData["ContName"] = "DisGorev";
 }
 
-<h1>Index</h1>
+<h2>Yapılan Dış Görevler</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#CreateModal">
+        Yeni Görev
+    </button>
 </p>
-<table class="table">
+
+<head>
+    <style>
+        #DisGorevGrid th,
+        #DisGorevGrid td {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<table class="table" id="DisGorevGrid">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Dil)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DosyaNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DanisanAdSoyad)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KurumHastaneAdi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GidisTarihi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GidisSaati)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DonusSaati)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.YonlendirenKisi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EkBilgi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KullaniciAdi)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KayitTarihi)
-            </th>
             <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.DosyaNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.KullaniciAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.KayitTarihi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.DanisanAdSoyad)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.YonlendirenKisi)
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.Dil)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.KurumHastaneAdi)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.isTakipListesi_DisGorev.GidisTarihi)
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Dil)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DosyaNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DanisanAdSoyad)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KurumHastaneAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GidisTarihi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GidisSaati)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonusSaati)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.YonlendirenKisi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EkBilgi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KullaniciAdi)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KayitTarihi)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.isTakipListesi_DisGorevList)
+        {
+            <tr>
+                <td>  <a asp-action="Details" asp-route-id="@item.id" class="btn btn-success">Detay</a> </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DosyaNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KullaniciAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KayitTarihi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DanisanAdSoyad)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.YonlendirenKisi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Dil)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.KurumHastaneAdi)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GidisTarihi)
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<form asp-action="Create">
+    <!-- Modal -->
+    <div class="modal fade" id="CreateModal" tabindex="-1" aria-labelledby="CreateModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="CreateModal">Yeni Kayıt Ekle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="mb-3">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <div class="col-12 grid-margin">
+
+
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+
+                                            <label asp-for="isTakipListesi_DisGorev.DosyaNo" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.DosyaNo" class="form-control" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.DosyaNo" class="text-danger"></span>
+
+
+                                            <label asp-for="isTakipListesi_DisGorev.Dil" class="control-label"></label>
+                                            <div class="list-group checkbox-group required">
+                                                @for (int i = 0; i < Model.DilListesi.Count; i++)
+                                                {
+                                                    <label class="list-group-item">
+                                                        <input asp-for="@Model.DilCheckbox[i].isChecked" class="form-check-input me-1" type="checkbox">
+                                                        @Model.DilListesi[i]
+                                                    </label>
+                                                    <input type="hidden" value="@Model.DilListesi[i]" asp-for="@Model.DilCheckbox[i].Dil" />
+                                                }
+                                            </div>
+                                            <span asp-validation-for="isTakipListesi_DisGorev.Dil" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            <label asp-for="isTakipListesi_DisGorev.DanisanAdSoyad" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.DanisanAdSoyad" class="form-control" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.DanisanAdSoyad" class="text-danger"></span>
+
+                                            <label asp-for="isTakipListesi_DisGorev.YonlendirenKisi" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.YonlendirenKisi" class="form-control" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.YonlendirenKisi" class="text-danger"></span>
+
+                                            
+                                            <label asp-for="isTakipListesi_DisGorev.KurumHastaneAdi" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.KurumHastaneAdi" class="form-control" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.KurumHastaneAdi" class="text-danger"></span>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+
+                                           <label asp-for="isTakipListesi_DisGorev.GidisTarihi" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.GidisTarihi" class="form-control" type="date" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.GidisTarihi" class="text-danger"></span>
+
+                                            <label asp-for="isTakipListesi_DisGorev.GidisSaati" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.GidisSaati" class="form-control" type="time" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.GidisSaati" class="text-danger"></span>
+
+
+                                            <label asp-for="isTakipListesi_DisGorev.DonusSaati" class="control-label"></label>
+                                            <input asp-for="isTakipListesi_DisGorev.DonusSaati" class="form-control" type="time" />
+                                            <span asp-validation-for="isTakipListesi_DisGorev.DonusSaati" class="text-danger"></span>
+                                        </div>
+                                    </div
+                                </div>
+                                <div class="row">
+                                    @* <div class="col-md-6">
+                                    <div class="form-group row">
+                                    <label asp-for="isTakipListesi_DisGorev.EkBilgi" class="control-label"></label>
+                                    <textarea asp-for="isTakipListesi_DisGorev.EkBilgi" class="form-control"> </textarea>
+                                    <span asp-validation-for="isTakipListesi_DisGorev.EkBilgi" class="text-danger"></span>
+                                    </div>
+                                    </div> *@
+                                </div>
+                                <div class="form-group row">
+                                    <label asp-for="isTakipListesi_DisGorev.EkBilgi" class="control-label"></label>
+                                    <textarea asp-for="isTakipListesi_DisGorev.EkBilgi" class="form-control"> </textarea>
+                                    <span asp-validation-for="isTakipListesi_DisGorev.EkBilgi" class="text-danger"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Kapat</button>
+                    <button type="submit" value="Save" class="btn btn-primary">Kaydet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts {
+    <script>
+        //DataTable('#DisGorevGrid')
+        $('#DisGorevGrid').DataTable()
+    </script>
+
+}

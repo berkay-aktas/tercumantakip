@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
 
+
 namespace TercumanTakipWeb.Controllers
 {
+    [Authorize]
     public class TelefonController : Controller
     {
         private readonly TercumanTakipDbContext _context;

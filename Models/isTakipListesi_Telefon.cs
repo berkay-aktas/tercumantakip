@@ -11,7 +11,7 @@ namespace TercumanTakipWeb.Models
         public string? KimlikNo { get; set; }
         [Display(Name = "Talep Kişi")]
         public string? TalepKisi_Birim { get;set; }
-        [Display(Name = "Ofis Listesi")]
+        [Display(Name = "Ofis Adı")]
         public string? OfisListesi { get; set; }
         [Display(Name = "Destek Tarihi")]
         public DateOnly DestekTarihi { get; set; }

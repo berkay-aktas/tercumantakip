@@ -761,3 +761,11 @@ C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\obj\Debug\net8
 C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\obj\Debug\net8.0\TercumanTakipWeb.pdb
 C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\obj\Debug\net8.0\TercumanTakipWeb.genruntimeconfig.cache
 C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\obj\Debug\net8.0\ref\TercumanTakipWeb.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\System.Text.Json.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\Irony.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\berkay.aktas\source\repos\TercumanTakipWeb\tercumantakip\bin\Debug\net8.0\XLParser.dll

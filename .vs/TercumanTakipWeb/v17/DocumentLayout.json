@@ -1,16 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|c:\\users\\berkay.aktas\\source\\repos\\tercumantakipweb\\tercumantakip\\controllers\\telefoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|solutionrelative:controllers\\telefoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|c:\\users\\berkay.aktas\\source\\repos\\tercumantakipweb\\tercumantakip\\views\\yaziliceviri\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|solutionrelative:views\\yaziliceviri\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -18,34 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TelefonController.cs",
-              "DocumentMoniker": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\TelefonController.cs",
-              "RelativeDocumentMoniker": "Controllers\\TelefonController.cs",
-              "ToolTip": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\TelefonController.cs",
-              "RelativeToolTip": "Controllers\\TelefonController.cs",
-              "ViewState": "AQIAACAAAAAAAAAAAAD4vyoAAAAjAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-07-17T13:31:44.445Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Index.cshtml",
-              "DocumentMoniker": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Views\\YaziliCeviri\\Index.cshtml",
-              "RelativeDocumentMoniker": "Views\\YaziliCeviri\\Index.cshtml",
-              "ToolTip": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Views\\YaziliCeviri\\Index.cshtml",
-              "RelativeToolTip": "Views\\YaziliCeviri\\Index.cshtml",
-              "ViewState": "AQIAAEgAAAAAAAAAAAAAAH0AAABLAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-07-17T13:21:58.772Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e1b7d1f8-9b3c-49b1-8f4f-bfc63a88835d}"

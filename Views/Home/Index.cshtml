@@ -1,8 +1,114 @@
 ﻿@{
-    ViewData["Title"] = "Anasayfa";
+    ViewData["Title"] = "Ana Sayfa";
+    ViewData["ContName"] = "Home";
 }
 
-<div class="text-center">
-    <h1 class="display-4">TERCÜMAN TAKİP PROGRAMI</h1>
-    <p>ASP.NET MVC Core Versiyonu.</p>
+<h2>Dashboard</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-2">
+            <canvas id="telefonChart" width="500" height="500"></canvas>
+        </div>
+        <div class="col-md-2">
+            <canvas id="yuzyuzeChart" width="500" height="500"></canvas>
+        </div>
+        <div class="col-md-2">
+            <canvas id="topluAramaChart" width="500" height="500"></canvas>
+        </div>
+        <div class="col-md-2">
+            <canvas id="migrantTVChart" width="500" height="500"></canvas>
+        </div>
+        <div class="col-md-2">
+            <canvas id="disGorevChart" width="500" height="500"></canvas>
+        </div>
+        <div class="col-md-2">
+            <canvas id="yaziliCeviriChart" width="500" height="500"></canvas>
+        </div>
+    </div>
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Function to fetch data from API endpoint
+        async function fetchTranslationCounts() {
+            try {
+                let response = await fetch('/api/chart/getCounts');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                let data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error fetching translation counts:', error);
+            }
+        }
+
+        // Function to create doughnut chart
+        function createDoughnutChart(canvasId, labels, data) {
+            var ctx = document.getElementById(canvasId).getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Translation Counts',
+                        data: data,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 206, 86, 0.7)',
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(153, 102, 255, 0.7)',
+                            'rgba(255, 159, 64, 0.7)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    legend: {
+                        position: 'right',
+                    }
+                }
+            });
+        }
+
+        // Main function to load and display charts
+        async function loadCharts() {
+            let data = await fetchTranslationCounts();
+            if (data) {
+                createDoughnutChart('telefonChart', Object.keys(data.isTakipListesi_Telefon), Object.values(data.isTakipListesi_Telefon));
+                createDoughnutChart('yuzyuzeChart', Object.keys(data.isTakipListesi_Yuzyuze), Object.values(data.isTakipListesi_Yuzyuze));
+                createDoughnutChart('topluAramaChart', Object.keys(data.isTakipListesi_TopluArama), Object.values(data.isTakipListesi_TopluArama));
+                createDoughnutChart('migrantTVChart', Object.keys(data.isTakipListesi_MigrantTV), Object.values(data.isTakipListesi_MigrantTV));
+                createDoughnutChart('disGorevChart', Object.keys(data.isTakipListesi_DisGorev), Object.values(data.isTakipListesi_DisGorev));
+                createDoughnutChart('yaziliCeviriChart', Object.keys(data.isTakipListesi_YaziliCeviri), Object.values(data.isTakipListesi_YaziliCeviri));
+            }
+        }
+
+        // Call loadCharts function when the page is ready
+        document.addEventListener('DOMContentLoaded', function () {
+            loadCharts();
+        });
+    </script>
+}
+
+<style>
+    .container {
+        margin-top: 30px;
+    }
+
+    .row {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .col-md-2 {
+        text-align: center;
+        margin-bottom: 20px; /* Optional: Add margin bottom for spacing */
+    }
+</style>

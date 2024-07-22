@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +10,7 @@ using TercumanTakipWeb.Models;
 
 namespace TercumanTakipWeb.Controllers
 {
+    [Authorize]
     public class OfisListesiController : Controller
     {
         private readonly TercumanTakipDbContext _context;

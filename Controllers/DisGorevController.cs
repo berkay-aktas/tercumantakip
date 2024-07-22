@@ -1,14 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
 using TercumanTakipWeb.Models;
+using TercumanTakipWeb.Models.ViewModels;
 
 namespace TercumanTakipWeb.Controllers
 {
+    [Authorize]
     public class DisGorevController : Controller
     {
         private readonly TercumanTakipDbContext _context;
@@ -19,33 +19,37 @@ namespace TercumanTakipWeb.Controllers
         }
 
         // GET: DisGorev
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? id)
         {
-            return View(await _context.isTakipListesi_DisGorev.ToListAsync());
+            DisGorevVM disGorevVM = new DisGorevVM();
+            disGorevVM.isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev.FindAsync(id);
+            disGorevVM.isTakipListesi_DisGorevList = await _context.isTakipListesi_DisGorev.ToListAsync();
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            disGorevVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+            return View(disGorevVM);
         }
 
         // GET: DisGorev/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
+            if (id == null || _context.isTakipListesi_DisGorev == null)
             {
                 return NotFound();
             }
+            var isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev.FirstOrDefaultAsync(m => m.id == id);
 
-            var isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev
-                .FirstOrDefaultAsync(m => m.id == id);
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            DisGorevVM disGorevVM = new();
+            disGorevVM.isTakipListesi_DisGorev = isTakipListesi_DisGorev;
+            disGorevVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+
             if (isTakipListesi_DisGorev == null)
             {
                 return NotFound();
             }
 
-            return View(isTakipListesi_DisGorev);
-        }
-
-        // GET: DisGorev/Create
-        public IActionResult Create()
-        {
-            return View();
+            return View(disGorevVM);
         }
 
         // POST: DisGorev/Create
@@ -53,31 +57,52 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Dil,DosyaNo,DanisanAdSoyad,KurumHastaneAdi,GidisTarihi,GidisSaati,DonusSaati,YonlendirenKisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_DisGorev isTakipListesi_DisGorev)
+        public async Task<IActionResult> Create(DisGorevVM disGorevVM)
         {
-            if (ModelState.IsValid)
+            string languageList = "";
+
+            for (int i = 0; i < disGorevVM.DilCheckbox.Count; i++)
             {
-                _context.Add(isTakipListesi_DisGorev);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (disGorevVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += disGorevVM.DilCheckbox[i].Dil + ",";
+                }
             }
-            return View(isTakipListesi_DisGorev);
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            disGorevVM.isTakipListesi_DisGorev.Dil = languageList;
+
+            //Kullanicilar user = _userService.GetUserClaims(User);
+
+            string currentUser = User.Identity.Name;
+            disGorevVM.isTakipListesi_DisGorev.KullaniciAdi = currentUser;
+
+            //if (ModelState.IsValid)
+
+            _context.Add(disGorevVM.isTakipListesi_DisGorev);
+            await _context.SaveChangesAsync();
+            TempData["success"] = "success";
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: DisGorev/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
             var isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev.FindAsync(id);
             if (isTakipListesi_DisGorev == null)
             {
                 return NotFound();
             }
-            return View(isTakipListesi_DisGorev);
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            DisGorevVM disGorevVM = new();
+            disGorevVM.isTakipListesi_DisGorev = isTakipListesi_DisGorev;
+            disGorevVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            return View(disGorevVM);
         }
 
         // POST: DisGorev/Edit/5
@@ -85,23 +110,37 @@ namespace TercumanTakipWeb.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Dil,DosyaNo,DanisanAdSoyad,KurumHastaneAdi,GidisTarihi,GidisSaati,DonusSaati,YonlendirenKisi,EkBilgi,id,KullaniciAdi,KayitTarihi")] isTakipListesi_DisGorev isTakipListesi_DisGorev)
+        public async Task<IActionResult> Edit(int id, DisGorevVM disGorevVM)
         {
-            if (id != isTakipListesi_DisGorev.id)
+            if (id != disGorevVM.isTakipListesi_DisGorev.id)
             {
                 return NotFound();
             }
+            string languageList = "";
 
-            if (ModelState.IsValid)
+            for (int i = 0; i < disGorevVM.DilCheckbox.Count; i++)
+            {
+                if (disGorevVM.DilCheckbox[i].isChecked)
+                {
+                    languageList += disGorevVM.DilCheckbox[i].Dil + ",";
+                }
+            }
+            if (languageList.EndsWith(","))
+            {
+                languageList = languageList.Remove(languageList.Length - 1);
+            }
+            disGorevVM.isTakipListesi_DisGorev.Dil = languageList;
+
+            //if (ModelState.IsValid)
             {
                 try
                 {
-                    _context.Update(isTakipListesi_DisGorev);
+                    _context.Update(disGorevVM.isTakipListesi_DisGorev);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!isTakipListesi_DisGorevExists(isTakipListesi_DisGorev.id))
+                    if (!isTakipListesi_DisGorevExists(disGorevVM.isTakipListesi_DisGorev.id))
                     {
                         return NotFound();
                     }
@@ -112,32 +151,18 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(isTakipListesi_DisGorev);
-        }
-
-        // GET: DisGorev/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (isTakipListesi_DisGorev == null)
-            {
-                return NotFound();
-            }
-
-            return View(isTakipListesi_DisGorev);
+            //return View(disGorevVM.isTakipListesi_DisGorev);
         }
 
         // POST: DisGorev/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
         {
+            if (_context.isTakipListesi_DisGorev == null)
+            {
+                return Problem("Entity set 'TercumanTakipDbContext.isTakipListesi_DisGorev'  is null.");
+            }
             var isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev.FindAsync(id);
             if (isTakipListesi_DisGorev != null)
             {
@@ -150,7 +175,7 @@ namespace TercumanTakipWeb.Controllers
 
         private bool isTakipListesi_DisGorevExists(int id)
         {
-            return _context.isTakipListesi_DisGorev.Any(e => e.id == id);
+            return (_context.isTakipListesi_DisGorev?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }

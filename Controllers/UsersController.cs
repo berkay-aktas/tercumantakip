@@ -96,7 +96,7 @@ namespace TercumanTakipWeb.Controllers
         {
             //await _service.SignOut(this.HttpContext);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login", "User");
+            return RedirectToAction("Login", "Users");
         }
 
         public bool AuthenticateUser(string domainName, string userName, string password)
