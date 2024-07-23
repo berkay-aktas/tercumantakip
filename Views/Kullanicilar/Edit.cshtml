@@ -1,0 +1,83 @@
+﻿@model TercumanTakipWeb.Models.Users
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Users</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="AdSoyad" class="control-label"></label>
+                <input asp-for="AdSoyad" class="form-control" />
+                <span asp-validation-for="AdSoyad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KullaniciAdi" class="control-label"></label>
+                <input asp-for="KullaniciAdi" class="form-control" />
+                <span asp-validation-for="KullaniciAdi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KullaniciTipi" class="control-label"></label>
+                <select asp-for="KullaniciTipi" class="form-control">
+                    <option value="Administrator">Administrator</option>
+                    <option value="User">User</option>
+                </select>
+                <span asp-validation-for="KullaniciTipi" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Seviye" class="control-label"></label>
+                <select asp-for="Seviye" class="form-control">
+                    <option value="10">10</option>
+                    <option value="60">60</option>
+                    <option value="100">100</option>
+                </select>
+                <span asp-validation-for="Seviye" class="text-danger"></span>
+            </div>
+
+            <!-- Hidden fields -->
+            @Html.HiddenFor(model => model.EmailAdres)
+            @Html.HiddenFor(model => model.Parola)
+            @Html.HiddenFor(model => model.KullaniciDurumu)
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        document.getElementById("KullaniciTipi").addEventListener("change", function () {
+            var seviyeSelect = document.getElementById("Seviye");
+            var selectedTipi = this.value;
+
+            while (seviyeSelect.options.length > 0) {
+                seviyeSelect.remove(0);
+            }
+
+            if (selectedTipi === "User") {
+                var option10 = new Option("10", "10");
+                seviyeSelect.add(option10);
+                seviyeSelect.value = "10";
+            } else if (selectedTipi === "Administrator") {
+                var option60 = new Option("60", "60");
+                var option100 = new Option("100", "100");
+                seviyeSelect.add(option60);
+                seviyeSelect.add(option100);
+                seviyeSelect.value = "60";
+            }
+        });
+
+        document.getElementById("KullaniciTipi").dispatchEvent(new Event("change"));
+    </script>
+}

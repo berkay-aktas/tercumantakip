@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,41 +10,65 @@ using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
-    [Authorize]
-    public class DilListesiController : Controller
+    public class KullanicilarController : Controller
     {
         private readonly TercumanTakipDbContext _context;
         public IUserService _userService { get; set; }
 
-        public DilListesiController(TercumanTakipDbContext context, IUserService userService)
+        public KullanicilarController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
             _userService = userService;
+
         }
 
-        // GET: DilListesi
+        // GET: Kullanicilar
         public async Task<IActionResult> Index()
         {
             var userInfo = _userService.GetUserClaims(User);
             var userSeviye = userInfo?.Seviye;
 
-            if (userSeviye == "10")
+            if (userSeviye != "100")
             {
                 return Forbid();
             }
 
-            return _context.DilListesi != null ? 
-                          View(await _context.DilListesi.ToListAsync()) :
-                          Problem("Entity set 'TercumanTakipDbContext.DilListesi'  is null.");
+            return View(await _context.Users.ToListAsync());
         }
 
-        // GET: DilListesi/Create
+        // GET: Kullanicilar/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            var userInfo = _userService.GetUserClaims(User);
+            var userSeviye = userInfo?.Seviye;
+
+            if (userSeviye != "100")
+            {
+                return Forbid();
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _context.Users
+                .FirstOrDefaultAsync(m => m.id == id);
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return View(users);
+        }
+
+        // GET: Kullanicilar/Create
         public IActionResult Create()
         {
             var userInfo = _userService.GetUserClaims(User);
             var userSeviye = userInfo?.Seviye;
 
-            if (userSeviye == "10")
+            if (userSeviye != "100")
             {
                 return Forbid();
             }
@@ -53,30 +76,54 @@ namespace TercumanTakipWeb.Controllers
             return View();
         }
 
-        // POST: DilListesi/Create
+        // POST: Kullanicilar/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,Dil")] DilListesi dilListesi)
+        public async Task<IActionResult> Create([Bind("id,AdSoyad,EmailAdres,KullaniciAdi,KullaniciTipi,Seviye,Parola,KullaniciDurumu")] Users users)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(dilListesi);
+                _context.Add(users);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(dilListesi);
+            return View(users);
         }
 
-        // POST: DilListesi/Edit/5
+        // GET: Kullanicilar/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            var userInfo = _userService.GetUserClaims(User);
+            var userSeviye = userInfo?.Seviye;
+
+            if (userSeviye != "100")
+            {
+                return Forbid();
+            }
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _context.Users.FindAsync(id);
+            if (users == null)
+            {
+                return NotFound();
+            }
+            return View(users);
+        }
+
+        // POST: Kullanicilar/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,Dil")] DilListesi dilListesi)
+        public async Task<IActionResult> Edit(int id, [Bind("id,AdSoyad,EmailAdres,KullaniciAdi,KullaniciTipi,Seviye,Parola,KullaniciDurumu")] Users users)
         {
-            if (id != dilListesi.id)
+            if (id != users.id)
             {
                 return NotFound();
             }
@@ -85,12 +132,12 @@ namespace TercumanTakipWeb.Controllers
             {
                 try
                 {
-                    _context.Update(dilListesi);
+                    _context.Update(users);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DilListesiExists(dilListesi.id))
+                    if (!UsersExists(users.id))
                     {
                         return NotFound();
                     }
@@ -101,31 +148,27 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(dilListesi);
+            return View(users);
         }
 
-        // POST: DilListesi/Delete/5
+        // POST: Kullanicilar/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.DilListesi == null)
+            var users = await _context.Users.FindAsync(id);
+            if (users != null)
             {
-                return Problem("Entity set 'TercumanTakipDbContext.DilListesi'  is null.");
+                _context.Users.Remove(users);
             }
-            var dilListesi = await _context.DilListesi.FindAsync(id);
-            if (dilListesi != null)
-            {
-                _context.DilListesi.Remove(dilListesi);
-            }
-            
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DilListesiExists(int id)
+        private bool UsersExists(int id)
         {
-          return (_context.DilListesi?.Any(e => e.id == id)).GetValueOrDefault();
+            return _context.Users.Any(e => e.id == id);
         }
     }
 }

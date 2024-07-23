@@ -2,7 +2,7 @@
 
 namespace TercumanTakipWeb.Models
 {
-    public class isTakipListesi_Yuzyuze:BaseEntity
+    public class isTakipListesi_Yuzyuze : BaseEntity
     {
         public string? Dil { get; set; }
         [Display(Name = "Dosya No")]

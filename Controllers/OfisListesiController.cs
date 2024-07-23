@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
+using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -14,41 +15,41 @@ namespace TercumanTakipWeb.Controllers
     public class OfisListesiController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public OfisListesiController(TercumanTakipDbContext context)
+        public OfisListesiController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: OfisListesi
         public async Task<IActionResult> Index()
         {
-              return _context.OfisListesi != null ? 
+            var userInfo = _userService.GetUserClaims(User);
+            var userSeviye = userInfo?.Seviye;
+
+            if (userSeviye == "10")
+            {
+                return Forbid();
+            }
+
+            return _context.OfisListesi != null ? 
                           View(await _context.OfisListesi.ToListAsync()) :
                           Problem("Entity set 'TercumanTakipDbContext.OfisListesi'  is null.");
-        }
-
-        // GET: OfisListesi/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null || _context.OfisListesi == null)
-            {
-                return NotFound();
-            }
-
-            var ofisListesi = await _context.OfisListesi
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (ofisListesi == null)
-            {
-                return NotFound();
-            }
-
-            return View(ofisListesi);
         }
 
         // GET: OfisListesi/Create
         public IActionResult Create()
         {
+            var userInfo = _userService.GetUserClaims(User);
+            var userSeviye = userInfo?.Seviye;
+
+            if (userSeviye == "10")
+            {
+                return Forbid();
+            }
+
             return View();
         }
 
@@ -64,22 +65,6 @@ namespace TercumanTakipWeb.Controllers
                 _context.Add(ofisListesi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
-            }
-            return View(ofisListesi);
-        }
-
-        // GET: OfisListesi/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.OfisListesi == null)
-            {
-                return NotFound();
-            }
-
-            var ofisListesi = await _context.OfisListesi.FindAsync(id);
-            if (ofisListesi == null)
-            {
-                return NotFound();
             }
             return View(ofisListesi);
         }
@@ -116,24 +101,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ofisListesi);
-        }
-
-        // GET: OfisListesi/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null || _context.OfisListesi == null)
-            {
-                return NotFound();
-            }
-
-            var ofisListesi = await _context.OfisListesi
-                .FirstOrDefaultAsync(m => m.id == id);
-            if (ofisListesi == null)
-            {
-                return NotFound();
-            }
-
             return View(ofisListesi);
         }
 

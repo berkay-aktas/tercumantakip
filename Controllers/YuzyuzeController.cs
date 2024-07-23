@@ -39,17 +39,26 @@ namespace TercumanTakipWeb.Controllers
             }
             var isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FirstOrDefaultAsync(m => m.id == id);
 
-            var dilListDB = await _context.DilListesi.ToListAsync();
-            YuzyuzeVM yuzyuzeVM = new();
-            yuzyuzeVM.isTakipListesi_Yuzyuze = isTakipListesi_Yuzyuze;
-            yuzyuzeVM.OfisListesi = GetOfisList();
-            yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-
-
             if (isTakipListesi_Yuzyuze == null)
             {
                 return NotFound();
             }
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            var selectedLanguages = isTakipListesi_Yuzyuze.Dil?.Split(',').ToList() ?? new List<string>();
+
+
+            YuzyuzeVM yuzyuzeVM = new();
+            yuzyuzeVM.isTakipListesi_Yuzyuze = isTakipListesi_Yuzyuze;
+            yuzyuzeVM.OfisListesi = GetOfisList();
+
+            yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            yuzyuzeVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
+            {
+                Dil = x.Dil,
+                isChecked = selectedLanguages.Contains(x.Dil)
+            }).ToList();
 
             return View(yuzyuzeVM);
         }

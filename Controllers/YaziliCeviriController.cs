@@ -37,16 +37,24 @@ namespace TercumanTakipWeb.Controllers
             }
             var isTakipListesi_YaziliCeviri = await _context.isTakipListesi_YaziliCeviri.FirstOrDefaultAsync(m => m.id == id);
 
-            var dilListDB = await _context.DilListesi.ToListAsync();
-            YaziliCeviriVM yaziliCeviriVM = new();
-            yaziliCeviriVM.isTakipListesi_YaziliCeviri = isTakipListesi_YaziliCeviri;
-            yaziliCeviriVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-
-
             if (isTakipListesi_YaziliCeviri == null)
             {
                 return NotFound();
             }
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            var selectedLanguages = isTakipListesi_YaziliCeviri.Dil?.Split(',').ToList() ?? new List<string>();
+
+            YaziliCeviriVM yaziliCeviriVM = new();
+            yaziliCeviriVM.isTakipListesi_YaziliCeviri = isTakipListesi_YaziliCeviri;
+
+            yaziliCeviriVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            yaziliCeviriVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
+            {
+                Dil = x.Dil,
+                isChecked = selectedLanguages.Contains(x.Dil)
+            }).ToList();
 
             return View(yaziliCeviriVM);
         }

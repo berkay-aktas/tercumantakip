@@ -2,7 +2,7 @@
 
 namespace TercumanTakipWeb.Models
 {
-    public class isTakipListesi_MigrantTV:BaseEntity
+    public class isTakipListesi_MigrantTV : BaseEntity
     {
         public string? Dil { get; set; }
         [Display(Name = "Çeviri Konusu")]

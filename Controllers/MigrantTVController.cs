@@ -38,16 +38,24 @@ namespace TercumanTakipWeb.Controllers
             }
             var isTakipListesi_MigrantTV = await _context.isTakipListesi_MigrantTV.FirstOrDefaultAsync(m => m.id == id);
 
-            var dilListDB = await _context.DilListesi.ToListAsync();
-            MigrantTVVM migrantTVVM = new();
-            migrantTVVM.isTakipListesi_MigrantTV = isTakipListesi_MigrantTV;
-            migrantTVVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-
-
             if (isTakipListesi_MigrantTV == null)
             {
                 return NotFound();
             }
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            var selectedLanguages = isTakipListesi_MigrantTV.Dil?.Split(',').ToList() ?? new List<string>();
+
+            MigrantTVVM migrantTVVM = new();
+            migrantTVVM.isTakipListesi_MigrantTV = isTakipListesi_MigrantTV;
+
+            migrantTVVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            migrantTVVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
+            {
+                Dil = x.Dil,
+                isChecked = selectedLanguages.Contains(x.Dil)
+            }).ToList();
 
             return View(migrantTVVM);
         }

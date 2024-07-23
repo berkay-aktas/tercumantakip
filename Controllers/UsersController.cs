@@ -15,6 +15,7 @@ using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Services;
 using System.DirectoryServices;
 using TercumanTakipWeb.Models.ViewModels;
+using Microsoft.AspNetCore.Http;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -57,16 +58,15 @@ namespace TercumanTakipWeb.Controllers
         {
             if (AuthenticateUser("sgdd", loginDto.UserName, loginDto.Password))
             {
-                //
+
                 Users? user = _context.Users.Where(x => x.KullaniciAdi == loginDto.UserName).SingleOrDefault();
 
                 if (user == null)
                 {
                     return View(loginDto);
                 }
-
-                var claims = _userService.SetUserClaims(user);
-
+                var kullanici = _userService.Validate(loginDto);
+                var claims = _userService.SetUserClaims(kullanici);
                 var claimsIdentity = new ClaimsIdentity(
                     claims, CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -74,19 +74,17 @@ namespace TercumanTakipWeb.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
-                // save user name
+                // Save user name in a cookie
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.UtcNow.AddDays(1);
-                Response.Cookies.Append("UserName", loginDto.UserName, option); // cookie'yi oluştur ve kullanıcının adını kaydet
+                Response.Cookies.Append("UserName", loginDto.UserName, option); // Cookie to save user's name
 
-                //LogKaydet("Sisteme Giriş Yapıldı.", loginDto.UserName);
+                // Redirect to home or another relevant action
                 return RedirectToAction("Index", "Home");
             }
             else
             {
                 ModelState.AddModelError("LoginError", "*Kullanıcı Adı Veya Şifre Hatalı!");
-                //return RedirectToAction("Login", "User");
-                //return BadRequest("Kullanıcı Adı veya Şifre hatalı");
                 return View(loginDto);
             }
         }

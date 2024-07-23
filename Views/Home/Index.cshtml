@@ -7,23 +7,42 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-2">
-            <canvas id="telefonChart" width="500" height="500"></canvas>
+        <div class="col-md-2 text-center">
+            <div >
+                <canvas id="telefonChart" width="300" height="300"></canvas>
+            </div>
+            <label>Telefon Grafiği</label>
         </div>
         <div class="col-md-2">
-            <canvas id="yuzyuzeChart" width="500" height="500"></canvas>
+            <div>
+                <canvas id="yuzyuzeChart" width="300" height="300"></canvas>
+            </div>
+            <label>Yüz Yüze Görüşme Grafiği</label>
         </div>
         <div class="col-md-2">
-            <canvas id="topluAramaChart" width="500" height="500"></canvas>
+            <div>
+                <canvas id="topluAramaChart" width="300" height="300"></canvas>
+            </div>
+            <label>Toplu Arama Grafiği</label>
         </div>
         <div class="col-md-2">
-            <canvas id="migrantTVChart" width="500" height="500"></canvas>
+            <div>
+                <canvas id="migrantTVChart" width="300" height="300"></canvas>
+            </div>
+            <label>MigrantTV Grafiği</label>
         </div>
         <div class="col-md-2">
-            <canvas id="disGorevChart" width="500" height="500"></canvas>
+            <div>
+                <canvas id="disGorevChart" width="300" height="300"></canvas>
+            </div>
+            <label>Dış Görev Grafiği</label>
         </div>
         <div class="col-md-2">
-            <canvas id="yaziliCeviriChart" width="500" height="500"></canvas>
+            <div>
+                <canvas id="yaziliCeviriChart" width="300" height="300"></canvas>
+            </div>
+            <label>Yazılı Çeviri Grafiği</label>
+
         </div>
     </div>
 </div>
@@ -31,7 +50,6 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Function to fetch data from API endpoint
         async function fetchTranslationCounts() {
             try {
                 let response = await fetch('/api/chart/getCounts');
@@ -45,7 +63,6 @@
             }
         }
 
-        // Function to create doughnut chart
         function createDoughnutChart(canvasId, labels, data) {
             var ctx = document.getElementById(canvasId).getContext('2d');
             var chart = new Chart(ctx, {
@@ -53,7 +70,7 @@
                 data: {
                     labels: labels,
                     datasets: [{
-                        label: 'Translation Counts',
+                        label: 'Çeviri Sayısı',
                         data: data,
                         backgroundColor: [
                             'rgba(255, 99, 132, 0.7)',
@@ -76,7 +93,6 @@
             });
         }
 
-        // Main function to load and display charts
         async function loadCharts() {
             let data = await fetchTranslationCounts();
             if (data) {
@@ -89,7 +105,6 @@
             }
         }
 
-        // Call loadCharts function when the page is ready
         document.addEventListener('DOMContentLoaded', function () {
             loadCharts();
         });
@@ -98,7 +113,8 @@
 
 <style>
     .container {
-        margin-top: 30px;
+        margin-top: 40px;
+
     }
 
     .row {
@@ -109,6 +125,6 @@
 
     .col-md-2 {
         text-align: center;
-        margin-bottom: 20px; /* Optional: Add margin bottom for spacing */
+        margin-bottom: 30px;
     }
 </style>

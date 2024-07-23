@@ -39,17 +39,25 @@ namespace TercumanTakipWeb.Controllers
             }
             var isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FirstOrDefaultAsync(m => m.id == id);
 
-            var dilListDB = await _context.DilListesi.ToListAsync();
-            TopluAramaVM topluAramaVM = new();
-            topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
-            topluAramaVM.OfisListesi = GetOfisList();
-            topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-
-
             if (isTakipListesi_TopluArama == null)
             {
                 return NotFound();
             }
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            var selectedLanguages = isTakipListesi_TopluArama.Dil?.Split(',').ToList() ?? new List<string>();
+
+            TopluAramaVM topluAramaVM = new();
+            topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
+            topluAramaVM.OfisListesi = GetOfisList();
+
+            topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            topluAramaVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
+            {
+                Dil = x.Dil,
+                isChecked = selectedLanguages.Contains(x.Dil)
+            }).ToList();
 
             return View(topluAramaVM);
         }

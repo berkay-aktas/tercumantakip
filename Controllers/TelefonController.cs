@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
+using TercumanTakipWeb.Services;
 
 
 namespace TercumanTakipWeb.Controllers
@@ -13,15 +14,19 @@ namespace TercumanTakipWeb.Controllers
     public class TelefonController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public TelefonController(TercumanTakipDbContext context)
+        public TelefonController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: Telefon
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             TelefonVM telefonVM = new TelefonVM();
             telefonVM.isTakipListesi_Telefon = await _context.isTakipListesi_Telefon.FindAsync(id);
             telefonVM.isTakipListesi_TelefonList = await _context.isTakipListesi_Telefon.ToListAsync();
@@ -40,17 +45,25 @@ namespace TercumanTakipWeb.Controllers
             }
             var isTakipListesi_Telefon = await _context.isTakipListesi_Telefon.FirstOrDefaultAsync(m => m.id == id);
 
-            var dilListDB = await _context.DilListesi.ToListAsync();
-            TelefonVM telefonVM = new();
-            telefonVM.isTakipListesi_Telefon = isTakipListesi_Telefon;
-            telefonVM.OfisListesi = GetOfisList();
-            telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
-
-
             if (isTakipListesi_Telefon == null)
             {
                 return NotFound();
             }
+
+            var dilListDB = await _context.DilListesi.ToListAsync();
+            var selectedLanguages = isTakipListesi_Telefon.Dil?.Split(',').ToList() ?? new List<string>();
+
+            TelefonVM telefonVM = new();
+            telefonVM.isTakipListesi_Telefon = isTakipListesi_Telefon;
+            telefonVM.OfisListesi = GetOfisList();
+
+            telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
+
+            telefonVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
+            {
+                Dil = x.Dil,
+                isChecked = selectedLanguages.Contains(x.Dil)
+            }).ToList();
 
             return View(telefonVM);
         }
@@ -145,6 +158,7 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             telefonVM.isTakipListesi_Telefon.Dil = languageList;
+
 
             //if (ModelState.IsValid)
             {

@@ -2,7 +2,7 @@
 
 namespace TercumanTakipWeb.Models
 {
-    public class isTakipListesi_TopluArama:BaseEntity
+    public class isTakipListesi_TopluArama : BaseEntity
     {
         public string? Dil { get; set; }
         [Display(Name = "Arama Başlığı")]
