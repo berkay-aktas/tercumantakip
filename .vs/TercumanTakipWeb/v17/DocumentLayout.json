@@ -1,7 +1,16 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|c:\\users\\berkay.aktas\\source\\repos\\tercumantakipweb\\tercumantakip\\controllers\\raporcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|solutionrelative:controllers\\raporcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|c:\\users\\berkay.aktas\\source\\repos\\tercumantakipweb\\tercumantakip\\controllers\\telefoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2FDDCA7F-C537-4B42-9D23-8C3B2AA9048D}|TercumanTakipWeb.csproj|solutionrelative:controllers\\telefoncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +18,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -18,6 +27,32 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TelefonController.cs",
+              "DocumentMoniker": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\TelefonController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TelefonController.cs",
+              "ToolTip": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\TelefonController.cs",
+              "RelativeToolTip": "Controllers\\TelefonController.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAAACEAAACIAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-25T10:51:06.707Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RaporController.cs",
+              "DocumentMoniker": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\RaporController.cs",
+              "RelativeDocumentMoniker": "Controllers\\RaporController.cs",
+              "ToolTip": "C:\\Users\\berkay.aktas\\source\\repos\\TercumanTakipWeb\\tercumantakip\\Controllers\\RaporController.cs",
+              "RelativeToolTip": "Controllers\\RaporController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-07-25T10:46:36.339Z",
+              "EditorCaption": ""
             }
           ]
         }

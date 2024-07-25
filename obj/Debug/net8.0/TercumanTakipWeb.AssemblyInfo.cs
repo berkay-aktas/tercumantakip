@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("TercumanTakipWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+71f8dc64fe7992625bcda865053bfa5bfde83573")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+32d8fcac42417fd93964f7bcbb9cb6ae2649819a")]
 [assembly: System.Reflection.AssemblyProductAttribute("TercumanTakipWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("TercumanTakipWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

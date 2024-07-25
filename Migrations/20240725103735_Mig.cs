@@ -6,26 +6,36 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TercumanTakipWeb.Migrations
 {
     /// <inheritdoc />
-    public partial class Mig1 : Migration
+    public partial class Mig : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<int>(
-                name: "GorusmeSayisi",
-                table: "isTakipListesi_Telefon",
-                type: "int",
-                nullable: true,
-                oldClrType: typeof(int),
-                oldType: "int");
+            migrationBuilder.CreateTable(
+                name: "AramaBasligiListesi",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AramaBasligi = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AramaBasligiListesi", x => x.id);
+                });
 
-            migrationBuilder.AlterColumn<DateOnly>(
-                name: "DestekTarihi",
-                table: "isTakipListesi_Telefon",
-                type: "date",
-                nullable: false,
-                oldClrType: typeof(DateTime),
-                oldType: "datetime2");
+            migrationBuilder.CreateTable(
+                name: "DilListesi",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Dil = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DilListesi", x => x.id);
+                });
 
             migrationBuilder.CreateTable(
                 name: "isTakipListesi_DisGorev",
@@ -71,13 +81,37 @@ namespace TercumanTakipWeb.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "isTakipListesi_Telefon",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Dil = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DosyaNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KimlikNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TalepKisi_Birim = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OfisListesi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DestekTarihi = table.Column<DateOnly>(type: "date", nullable: false),
+                    BaslangicSaati = table.Column<TimeSpan>(type: "time", nullable: false),
+                    BitisSaati = table.Column<TimeSpan>(type: "time", nullable: false),
+                    GorusmeSayisi = table.Column<int>(type: "int", nullable: true),
+                    EkBilgi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KullaniciAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KayitTarihi = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_isTakipListesi_Telefon", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "isTakipListesi_TopluArama",
                 columns: table => new
                 {
                     id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Dil = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AramaBasligi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AramaBasligiListesi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OfisListesi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DestekTarihi = table.Column<DateOnly>(type: "date", nullable: false),
                     AramaSayisi = table.Column<int>(type: "int", nullable: false),
@@ -123,7 +157,7 @@ namespace TercumanTakipWeb.Migrations
                     DestekTarihi = table.Column<DateOnly>(type: "date", nullable: false),
                     BaslangicSaati = table.Column<TimeSpan>(type: "time", nullable: false),
                     BitisSaati = table.Column<TimeSpan>(type: "time", nullable: false),
-                    GorusmeSayisi = table.Column<int>(type: "int", nullable: false),
+                    GorusmeSayisi = table.Column<int>(type: "int", nullable: true),
                     EkBilgi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     KullaniciAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     KayitTarihi = table.Column<DateTime>(type: "datetime2", nullable: false)
@@ -132,16 +166,57 @@ namespace TercumanTakipWeb.Migrations
                 {
                     table.PrimaryKey("PK_isTakipListesi_Yuzyuze", x => x.id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "OfisListesi",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OfisAdi = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OfisListesi", x => x.id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AdSoyad = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    EmailAdres = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KullaniciAdi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KullaniciTipi = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Seviye = table.Column<int>(type: "int", nullable: false),
+                    Parola = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    KullaniciDurumu = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.id);
+                });
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AramaBasligiListesi");
+
+            migrationBuilder.DropTable(
+                name: "DilListesi");
+
+            migrationBuilder.DropTable(
                 name: "isTakipListesi_DisGorev");
 
             migrationBuilder.DropTable(
                 name: "isTakipListesi_MigrantTV");
+
+            migrationBuilder.DropTable(
+                name: "isTakipListesi_Telefon");
 
             migrationBuilder.DropTable(
                 name: "isTakipListesi_TopluArama");
@@ -152,23 +227,11 @@ namespace TercumanTakipWeb.Migrations
             migrationBuilder.DropTable(
                 name: "isTakipListesi_Yuzyuze");
 
-            migrationBuilder.AlterColumn<int>(
-                name: "GorusmeSayisi",
-                table: "isTakipListesi_Telefon",
-                type: "int",
-                nullable: false,
-                defaultValue: 0,
-                oldClrType: typeof(int),
-                oldType: "int",
-                oldNullable: true);
+            migrationBuilder.DropTable(
+                name: "OfisListesi");
 
-            migrationBuilder.AlterColumn<DateTime>(
-                name: "DestekTarihi",
-                table: "isTakipListesi_Telefon",
-                type: "datetime2",
-                nullable: false,
-                oldClrType: typeof(DateOnly),
-                oldType: "date");
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

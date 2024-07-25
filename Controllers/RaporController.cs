@@ -1,9 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
+using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -11,51 +11,95 @@ namespace TercumanTakipWeb.Controllers
     public class RaporController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public RaporController(TercumanTakipDbContext context)
+        public RaporController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<IActionResult> ExportToExcel(string reportType)
         {
             var stream = new MemoryStream();
+            var userInfo = _userService.GetUserClaims(User);
 
-            switch (reportType)
+            if (userInfo.Seviye == "100" || userInfo.Seviye == "60")
             {
-                case "Telefon":
-                    var telefonData = await _context.isTakipListesi_Telefon.ToListAsync();
-                    stream = GenerateExcelReport(telefonData, "Telefon");
-                    break;
+                switch (reportType)
+                {
+                    case "Telefon":
+                        var telefonData = await _context.isTakipListesi_Telefon.ToListAsync();
+                        stream = GenerateExcelReport(telefonData, "Telefon");
+                        break;
 
-                case "Yuzyuze":
-                    var yuzyuzeData = await _context.isTakipListesi_Yuzyuze.ToListAsync();
-                    stream = GenerateExcelReport(yuzyuzeData, "Yuzyuze");
-                    break;
+                    case "Yuzyuze":
+                        var yuzyuzeData = await _context.isTakipListesi_Yuzyuze.ToListAsync();
+                        stream = GenerateExcelReport(yuzyuzeData, "Yuzyuze");
+                        break;
 
-                case "TopluArama":
-                    var topluAramaData = await _context.isTakipListesi_TopluArama.ToListAsync();
-                    stream = GenerateExcelReport(topluAramaData, "TopluArama");
-                    break;
+                    case "TopluArama":
+                        var topluAramaData = await _context.isTakipListesi_TopluArama.ToListAsync();
+                        stream = GenerateExcelReport(topluAramaData, "TopluArama");
+                        break;
 
-                case "MigrantTV":
-                    var migrantTVData = await _context.isTakipListesi_MigrantTV.ToListAsync();
-                    stream = GenerateExcelReport(migrantTVData, "MigrantTV");
-                    break;
+                    case "MigrantTV":
+                        var migrantTVData = await _context.isTakipListesi_MigrantTV.ToListAsync();
+                        stream = GenerateExcelReport(migrantTVData, "MigrantTV");
+                        break;
 
-                case "DisGorev":
-                    var disGorevData = await _context.isTakipListesi_DisGorev.ToListAsync();
-                    stream = GenerateExcelReport(disGorevData, "DisGorev");
-                    break;
+                    case "DisGorev":
+                        var disGorevData = await _context.isTakipListesi_DisGorev.ToListAsync();
+                        stream = GenerateExcelReport(disGorevData, "DisGorev");
+                        break;
 
-                case "YaziliCeviri":
-                    var yaziliCeviriData = await _context.isTakipListesi_YaziliCeviri.ToListAsync();
-                    stream = GenerateExcelReport(yaziliCeviriData, "YaziliCeviri");
-                    break;
+                    case "YaziliCeviri":
+                        var yaziliCeviriData = await _context.isTakipListesi_YaziliCeviri.ToListAsync();
+                        stream = GenerateExcelReport(yaziliCeviriData, "YaziliCeviri");
+                        break;
 
-                default:
-                    return BadRequest("Geçersiz rapor türü.");
+                    default:
+                        return BadRequest("Geçersiz rapor türü.");
+                }
+            }
+            else
+            {
+                switch (reportType)
+                {
+                    case "Telefon":
+                        var telefonData = await _context.isTakipListesi_Telefon.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(telefonData, "Telefon");
+                        break;
+
+                    case "Yuzyuze":
+                        var yuzyuzeData = await _context.isTakipListesi_Yuzyuze.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(yuzyuzeData, "Yuzyuze");
+                        break;
+
+                    case "TopluArama":
+                        var topluAramaData = await _context.isTakipListesi_TopluArama.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(topluAramaData, "TopluArama");
+                        break;
+
+                    case "MigrantTV":
+                        var migrantTVData = await _context.isTakipListesi_MigrantTV.Where(x=>x.KullaniciAdi==userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(migrantTVData, "MigrantTV");
+                        break;
+
+                    case "DisGorev":
+                        var disGorevData = await _context.isTakipListesi_DisGorev.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(disGorevData, "DisGorev");
+                        break;
+
+                    case "YaziliCeviri":
+                        var yaziliCeviriData = await _context.isTakipListesi_YaziliCeviri.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+                        stream = GenerateExcelReport(yaziliCeviriData, "YaziliCeviri");
+                        break;
+
+                    default:
+                        return BadRequest("Geçersiz rapor türü.");
+                }
             }
 
             stream.Position = 0;

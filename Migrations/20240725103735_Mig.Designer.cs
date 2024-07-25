@@ -12,8 +12,8 @@ using TercumanTakipWeb.Models;
 namespace TercumanTakipWeb.Migrations
 {
     [DbContext(typeof(TercumanTakipDbContext))]
-    [Migration("20240725073930_LastMig")]
-    partial class LastMig
+    [Migration("20240725103735_Mig")]
+    partial class Mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,22 @@ namespace TercumanTakipWeb.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("TercumanTakipWeb.Models.AramaBasligiListesi", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
+
+                    b.Property<string>("AramaBasligi")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("id");
+
+                    b.ToTable("AramaBasligiListesi");
+                });
 
             modelBuilder.Entity("TercumanTakipWeb.Models.DilListesi", b =>
                 {
@@ -231,7 +247,7 @@ namespace TercumanTakipWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("AramaBasligi")
+                    b.Property<string>("AramaBasligiListesi")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AramaSayisi")
