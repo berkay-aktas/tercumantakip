@@ -144,6 +144,9 @@
                                                         <li class="nav-item @(ViewData["ContName"] as string == "Ayarlar" ? "active" : "")">
                                                             <a class="nav-link" asp-action="Index" asp-controller="OfisListesi">Ofis Listesi</a>
                                                         </li>
+                                                        <li class="nav-item @(ViewData["ContName"] as string == "Ayarlar" ? "active" : "")">
+                                                            <a class="nav-link" asp-action="Index" asp-controller="AramaBasligiListesi">Arama Başlığı Listesi</a>
+                                                        </li>
                                                     </ul>
                                                 </div>
                                             </li>
@@ -163,6 +166,9 @@
                                                     </li>
                                                     <li class="nav-item @(ViewData["ContName"] as string == "Ayarlar" ? "active" : "")">
                                                         <a class="nav-link" asp-action="Index" asp-controller="OfisListesi">Ofis Listesi</a>
+                                                    </li>
+                                                    <li class="nav-item @(ViewData["ContName"] as string == "Ayarlar" ? "active" : "")">
+                                                        <a class="nav-link" asp-action="Index" asp-controller="AramaBasligiListesi">Arama Başlığı Listesi</a>
                                                     </li>
                                                     <li class="nav-item @(ViewData["ContName"] as string == "Ayarlar" ? "active" : "")">
                                                         <a class="nav-link" asp-action="Index" asp-controller="Kullanicilar">Kullanıcılar</a>

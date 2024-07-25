@@ -41,6 +41,7 @@ namespace TercumanTakipWeb.Controllers
             }
             var dilListDB = await _context.DilListesi.ToListAsync();
             topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.AramaBasligiListesi = GetAramaBasligiList();
             topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
             return View(topluAramaVM);
         }
@@ -65,6 +66,7 @@ namespace TercumanTakipWeb.Controllers
             TopluAramaVM topluAramaVM = new();
             topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
             topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.AramaBasligiListesi = GetAramaBasligiList();
 
             topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
 
@@ -86,6 +88,17 @@ namespace TercumanTakipWeb.Controllers
             }).Distinct().OrderBy(x => x.Text).ToList();
 
             return ofisList;
+        }
+
+        private List<SelectListItem> GetAramaBasligiList()
+        {
+            var aramaBasligiList = _context.AramaBasligiListesi.Select(i => new SelectListItem
+            {
+                Text = i.AramaBasligi,
+                Value = i.AramaBasligi
+            }).Distinct().OrderBy(x => x.Text).ToList();
+
+            return aramaBasligiList;
         }
 
         // POST: TopluArama/Create
@@ -135,6 +148,7 @@ namespace TercumanTakipWeb.Controllers
             TopluAramaVM topluAramaVM = new();
             topluAramaVM.isTakipListesi_TopluArama = isTakipListesi_TopluArama;
             topluAramaVM.OfisListesi = GetOfisList();
+            topluAramaVM.AramaBasligiListesi = GetAramaBasligiList();
             topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
 
             return View(topluAramaVM);

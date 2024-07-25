@@ -36,7 +36,7 @@
                 @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.KayitTarihi)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.AramaBasligi)
+                @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.AramaBasligiListesi)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.isTakipListesi_TopluArama.Dil)
@@ -67,7 +67,7 @@
                     @Html.DisplayFor(modelItem => item.KayitTarihi)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.AramaBasligi)
+                    @Html.DisplayFor(modelItem => item.AramaBasligiListesi)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Dil)
@@ -119,9 +119,9 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label asp-for="isTakipListesi_TopluArama.AramaBasligi" class="control-label"></label>
-                                            <textarea asp-for="isTakipListesi_TopluArama.AramaBasligi" class="form-control"> </textarea>
-                                            <span asp-validation-for="isTakipListesi_TopluArama.AramaBasligi" class="text-danger"></span>
+                                            <label asp-for="AramaBasligiListesi" class="control-label"></label>
+                                            <select asp-items="@Model.AramaBasligiListesi" asp-for="isTakipListesi_TopluArama.AramaBasligiListesi" class="form-control"><option>Arama Başlığı Seçiniz</option></select>
+                                            <span asp-validation-for="AramaBasligiListesi" class="text-danger"></span>
                                         </div>
                                     </div>
                                     </div>

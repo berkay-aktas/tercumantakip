@@ -1,27 +1,27 @@
-﻿@model IEnumerable<TercumanTakipWeb.Models.DilListesi>
+﻿@model IEnumerable<TercumanTakipWeb.Models.AramaBasligiListesi>
 
 @{
-    ViewData["Title"] = "Dil Listesi";
+    ViewData["Title"] = "Arama Başlığı Listesi";
     ViewData["ContName"] = "Ayarlar";
 }
 
-<h2>Dil Listesi</h2>
+<h2>Toplu Arama Başlığı Listesi</h2>
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Yeni Dil Ekle</a>
+    <a asp-action="Create" class="btn btn-primary">Yeni Arama Başlığı Ekle</a>
 </p>
 
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Dil)</th>
+            <th>@Html.DisplayNameFor(model => model.AramaBasligi)</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@Html.DisplayFor(modelItem => item.Dil)</td>
+                <td>@Html.DisplayFor(modelItem => item.AramaBasligi)</td>
                 <td>
                     <a href="#" class="btn btn-danger" onclick="confirmDelete('@item.id')">Sil</a>
                 </td>
@@ -46,7 +46,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/DilListesi/Delete/' + itemId,
+                        url: '/AramaBasligiListesi/Delete/' + itemId,
                         type: 'POST',
                         success: function (response) {
                             Swal.fire('Silindi!', 'Kayıt başarıyla silindi.', 'success').then(() => {

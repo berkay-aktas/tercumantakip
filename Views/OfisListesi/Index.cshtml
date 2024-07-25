@@ -46,7 +46,7 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: '/Ofis/Delete/' + itemId,
+                        url: '/OfisListesi/Delete/' + itemId,
                         type: 'POST',
                         success: function (response) {
                             Swal.fire('Silindi!', 'Kayıt başarıyla silindi.', 'success').then(() => {

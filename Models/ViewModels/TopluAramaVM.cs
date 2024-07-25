@@ -8,6 +8,7 @@ namespace TercumanTakipWeb.Models.ViewModels
         public List<isTakipListesi_TopluArama>? isTakipListesi_TopluAramaList { get; set; }
         public List<SelectListItem>? OfisListesi { get; set; }
         public List<string>? DilListesi { get; set; }
+        public List<SelectListItem>? AramaBasligiListesi { get; set; }
         public List<DilCheckboxVM>? DilCheckbox { get; set; }
     }
 }

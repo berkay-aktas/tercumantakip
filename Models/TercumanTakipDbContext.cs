@@ -13,6 +13,7 @@ namespace TercumanTakipWeb.Models
         public DbSet<isTakipListesi_YaziliCeviri> isTakipListesi_YaziliCeviri { get; set; }
         public DbSet<OfisListesi> OfisListesi { get; set; }
         public DbSet<DilListesi> DilListesi { get; set;}
+        public DbSet<AramaBasligiListesi> AramaBasligiListesi { get; set; }
         public DbSet<Users> Users { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TercumanTakipWeb.Models;
 
@@ -11,9 +12,11 @@ using TercumanTakipWeb.Models;
 namespace TercumanTakipWeb.Migrations
 {
     [DbContext(typeof(TercumanTakipDbContext))]
-    partial class TercumanTakipDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240725073930_LastMig")]
+    partial class LastMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,22 +24,6 @@ namespace TercumanTakipWeb.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("TercumanTakipWeb.Models.AramaBasligiListesi", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
-
-                    b.Property<string>("AramaBasligi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("AramaBasligiListesi");
-                });
 
             modelBuilder.Entity("TercumanTakipWeb.Models.DilListesi", b =>
                 {
@@ -244,7 +231,7 @@ namespace TercumanTakipWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("AramaBasligiListesi")
+                    b.Property<string>("AramaBasligi")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("AramaSayisi")

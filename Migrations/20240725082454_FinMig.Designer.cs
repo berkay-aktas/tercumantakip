@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TercumanTakipWeb.Models;
 
@@ -11,9 +12,11 @@ using TercumanTakipWeb.Models;
 namespace TercumanTakipWeb.Migrations
 {
     [DbContext(typeof(TercumanTakipDbContext))]
-    partial class TercumanTakipDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240725082454_FinMig")]
+    partial class FinMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,11 +247,11 @@ namespace TercumanTakipWeb.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
-                    b.Property<string>("AramaBasligiListesi")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("AramaSayisi")
                         .HasColumnType("int");
+
+                    b.Property<string>("ArmaBasligiListesi")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateOnly>("DestekTarihi")
                         .HasColumnType("date");

@@ -6,7 +6,7 @@ namespace TercumanTakipWeb.Models
     {
         public string? Dil { get; set; }
         [Display(Name = "Arama Başlığı")]
-        public string? AramaBasligi { get; set; }
+        public string? AramaBasligiListesi { get; set; }
         [Display(Name = "Ofis Adı")]
         public string? OfisListesi { get; set; }
         [Display(Name = "Destek Tarihi")]
