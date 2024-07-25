@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
+using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -12,18 +13,32 @@ namespace TercumanTakipWeb.Controllers
     public class TopluAramaController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public TopluAramaController(TercumanTakipDbContext context)
+        public TopluAramaController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: TopluArama
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             TopluAramaVM topluAramaVM = new TopluAramaVM();
             topluAramaVM.isTakipListesi_TopluArama = await _context.isTakipListesi_TopluArama.FindAsync(id);
-            topluAramaVM.isTakipListesi_TopluAramaList = await _context.isTakipListesi_TopluArama.ToListAsync();
+
+            if (userInfo.Seviye == "10")
+            {
+                topluAramaVM.isTakipListesi_TopluAramaList = await _context.isTakipListesi_TopluArama.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                topluAramaVM.isTakipListesi_TopluAramaList = await _context.isTakipListesi_TopluArama.ToListAsync();
+
+            }
             var dilListDB = await _context.DilListesi.ToListAsync();
             topluAramaVM.OfisListesi = GetOfisList();
             topluAramaVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
@@ -94,8 +109,6 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             topluAramaVM.isTakipListesi_TopluArama.Dil = languageList;
-
-            //Kullanicilar user = _userService.GetUserClaims(User);
 
             string currentUser = User.Identity.Name;
             topluAramaVM.isTakipListesi_TopluArama.KullaniciAdi = currentUser;
@@ -173,7 +186,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(topluAramaVM.isTakipListesi_topluArama);
         }
 
         // POST: TopluArama/Delete/5

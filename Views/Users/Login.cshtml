@@ -5,46 +5,79 @@
 @model LoginVM
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Giriş Yap";
 }
+
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"] - Tercüman Takip Programı</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/site.css" rel="stylesheet" />
     <style>
-        .full-height {
-            height: 100vh;
+        body, html {
+            height: 100%;
+            background-color: #f8f9fa;
         }
+
+        .login-container {
+            max-width: 420px;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .login-header {
+            margin-bottom: 30px;
+            text-align: center;
+            color: #0ddbb9;
+        }
+
+        .form-floating > .form-control, .form-floating > .form-select {
+            height: calc(3.5rem + 2px);
+            padding: 1rem 1.5rem;
+        }
+
+        .form-floating label {
+            padding: 1rem 1.5rem;
+        }
+
+        .btn-primary {
+            background-color: #0ddbb9;
+            border-color: #0ddbb9;
+        }
+
+            .btn-primary:hover {
+                background-color: #0caa94;
+                border-color: #0caa94;
+            }
     </style>
 </head>
 <body>
-    <div class="container-fluid d-flex justify-content-center align-items-center full-height">
-        <div class="col-md-4">
-            <section>
-                <form id="account" method="post">
-                    <h2>Giriş yapmak için bilgilerinizi girin.</h2>
-                    <hr />
-                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                    <div class="form-floating mb-3">
-                        <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="name.surname" />
-                        <label asp-for="UserName" class="form-label">UserName</label>
-                        <span asp-validation-for="UserName" class="text-danger"></span>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="password" asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
-                        <label asp-for="Password" class="form-label">Password</label>
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div>
-                        <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
-                    </div>
-                </form>
-            </section>
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+        <div class="login-container">
+            <h2 class="login-header">Tercüman Takip Programı</h2>
+            <form id="account" method="post">
+                <h4 class="text-center mb-4">Giriş yapmak için bilgilerinizi girin.</h4>
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                <div class="form-floating mb-3">
+                    <input asp-for="UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="Kullanıcı Adı" />
+                    <label asp-for="UserName" class="form-label">Kullanıcı Adı</label>
+                    <span asp-validation-for="UserName" class="text-danger"></span>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" asp-for="Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="Şifre" />
+                    <label asp-for="Password" class="form-label">Şifre</label>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Giriş Yap</button>
+            </form>
         </div>
     </div>
 
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     @section Scripts {
         <partial name="_ValidationScriptsPartial" />
     }

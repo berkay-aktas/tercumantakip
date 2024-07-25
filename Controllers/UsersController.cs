@@ -39,7 +39,6 @@ namespace TercumanTakipWeb.Controllers
                 return BadRequest("Username or Email is exist");
             }
             user.KullaniciAdi = user.KullaniciAdi.ToLower();
-            //kullanici.EmailAdres = kullanici.EmailAdres.ToLower();
             await _context.AddAsync(user);
             await _context.SaveChangesAsync();
             return user;
@@ -74,12 +73,10 @@ namespace TercumanTakipWeb.Controllers
                     CookieAuthenticationDefaults.AuthenticationScheme,
                     new ClaimsPrincipal(claimsIdentity));
 
-                // Save user name in a cookie
                 CookieOptions option = new CookieOptions();
                 option.Expires = DateTime.UtcNow.AddDays(1);
                 Response.Cookies.Append("UserName", loginDto.UserName, option); // Cookie to save user's name
 
-                // Redirect to home or another relevant action
                 return RedirectToAction("Index", "Home");
             }
             else

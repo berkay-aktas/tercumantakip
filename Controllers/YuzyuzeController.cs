@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
+using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -12,18 +13,32 @@ namespace TercumanTakipWeb.Controllers
     public class YuzyuzeController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public YuzyuzeController(TercumanTakipDbContext context)
+        public YuzyuzeController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: Yuzyuze
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             YuzyuzeVM yuzyuzeVM = new YuzyuzeVM();
             yuzyuzeVM.isTakipListesi_Yuzyuze = await _context.isTakipListesi_Yuzyuze.FindAsync(id);
-            yuzyuzeVM.isTakipListesi_YuzyuzeList = await _context.isTakipListesi_Yuzyuze.ToListAsync();
+
+            if (userInfo.Seviye == "10")
+            {
+                yuzyuzeVM.isTakipListesi_YuzyuzeList = await _context.isTakipListesi_Yuzyuze.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                yuzyuzeVM.isTakipListesi_YuzyuzeList = await _context.isTakipListesi_Yuzyuze.ToListAsync();
+
+            }
             var dilListDB = await _context.DilListesi.ToListAsync();
             yuzyuzeVM.OfisListesi = GetOfisList();
             yuzyuzeVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
@@ -95,8 +110,6 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             yuzyuzeVM.isTakipListesi_Yuzyuze.Dil = languageList;
-
-            //Kullanicilar user = _userService.GetUserClaims(User);
 
             string currentUser = User.Identity.Name;
             yuzyuzeVM.isTakipListesi_Yuzyuze.KullaniciAdi = currentUser;
@@ -174,7 +187,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(yuzyuzeVM.isTakipListesi_Yuzyuze);
         }
 
         // POST: Yuzyuze/Delete/5

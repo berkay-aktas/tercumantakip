@@ -7,7 +7,6 @@ using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
 using TercumanTakipWeb.Services;
 
-
 namespace TercumanTakipWeb.Controllers
 {
     [Authorize]
@@ -29,7 +28,18 @@ namespace TercumanTakipWeb.Controllers
 
             TelefonVM telefonVM = new TelefonVM();
             telefonVM.isTakipListesi_Telefon = await _context.isTakipListesi_Telefon.FindAsync(id);
-            telefonVM.isTakipListesi_TelefonList = await _context.isTakipListesi_Telefon.ToListAsync();
+
+            if(userInfo.Seviye == "10")
+            {
+                telefonVM.isTakipListesi_TelefonList = await _context.isTakipListesi_Telefon.Where(x=>x.KullaniciAdi==userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                telefonVM.isTakipListesi_TelefonList = await _context.isTakipListesi_Telefon.ToListAsync();
+
+            }
+
             var dilListDB = await _context.DilListesi.ToListAsync();
             telefonVM.OfisListesi = GetOfisList();
             telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
@@ -56,7 +66,6 @@ namespace TercumanTakipWeb.Controllers
             TelefonVM telefonVM = new();
             telefonVM.isTakipListesi_Telefon = isTakipListesi_Telefon;
             telefonVM.OfisListesi = GetOfisList();
-
             telefonVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
 
             telefonVM.DilCheckbox = dilListDB.Select(x => new DilCheckboxVM
@@ -101,12 +110,8 @@ namespace TercumanTakipWeb.Controllers
             }
             telefonVM.isTakipListesi_Telefon.Dil = languageList;
 
-            //Kullanicilar user = _userService.GetUserClaims(User);
-
             string currentUser = User.Identity.Name;
             telefonVM.isTakipListesi_Telefon.KullaniciAdi = currentUser;
-
-            //if (ModelState.IsValid)
 
             _context.Add(telefonVM.isTakipListesi_Telefon);
             await _context.SaveChangesAsync();
@@ -180,7 +185,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(telefonVM.isTakipListesi_Telefon);
         }
 
         // POST: Telefon/Delete/5

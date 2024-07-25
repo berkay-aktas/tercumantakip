@@ -73,7 +73,7 @@
                         type: 'POST',
                         success: function (response) {
                             Swal.fire('Deleted!', 'The record has been deleted.', 'success').then(() => {
-                                location.reload(); // Refresh the page to reflect the deletion
+                                location.reload();
                             });
                         },
                         error: function (xhr, status, error) {

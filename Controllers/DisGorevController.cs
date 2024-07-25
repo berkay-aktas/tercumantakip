@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
+using TercumanTakipWeb.Services;
 
 namespace TercumanTakipWeb.Controllers
 {
@@ -12,18 +13,33 @@ namespace TercumanTakipWeb.Controllers
     public class DisGorevController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public DisGorevController(TercumanTakipDbContext context)
+        public DisGorevController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: DisGorev
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             DisGorevVM disGorevVM = new DisGorevVM();
             disGorevVM.isTakipListesi_DisGorev = await _context.isTakipListesi_DisGorev.FindAsync(id);
-            disGorevVM.isTakipListesi_DisGorevList = await _context.isTakipListesi_DisGorev.ToListAsync();
+
+            if (userInfo.Seviye == "10")
+            {
+                disGorevVM.isTakipListesi_DisGorevList = await _context.isTakipListesi_DisGorev.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                disGorevVM.isTakipListesi_DisGorevList = await _context.isTakipListesi_DisGorev.ToListAsync();
+
+            }
+
             var dilListDB = await _context.DilListesi.ToListAsync();
             disGorevVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
             return View(disGorevVM);
@@ -82,8 +98,6 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             disGorevVM.isTakipListesi_DisGorev.Dil = languageList;
-
-            //Kullanicilar user = _userService.GetUserClaims(User);
 
             string currentUser = User.Identity.Name;
             disGorevVM.isTakipListesi_DisGorev.KullaniciAdi = currentUser;
@@ -160,7 +174,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(disGorevVM.isTakipListesi_DisGorev);
         }
 
         // POST: DisGorev/Delete/5

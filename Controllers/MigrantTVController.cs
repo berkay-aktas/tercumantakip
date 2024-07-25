@@ -5,25 +5,40 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
-
+using TercumanTakipWeb.Services;
 namespace TercumanTakipWeb.Controllers
 {
     [Authorize]
     public class MigrantTVController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public MigrantTVController(TercumanTakipDbContext context)
+        public MigrantTVController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: MigrantTV
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             MigrantTVVM migrantTVVM = new MigrantTVVM();
             migrantTVVM.isTakipListesi_MigrantTV = await _context.isTakipListesi_MigrantTV.FindAsync(id);
-            migrantTVVM.isTakipListesi_MigrantTVList = await _context.isTakipListesi_MigrantTV.ToListAsync();
+
+            if (userInfo.Seviye == "10")
+            {
+                migrantTVVM.isTakipListesi_MigrantTVList = await _context.isTakipListesi_MigrantTV.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                migrantTVVM.isTakipListesi_MigrantTVList = await _context.isTakipListesi_MigrantTV.ToListAsync();
+
+            }
+
             var dilListDB = await _context.DilListesi.ToListAsync();
             migrantTVVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
             return View(migrantTVVM);
@@ -81,8 +96,6 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             migrantTVVM.isTakipListesi_MigrantTV.Dil = languageList;
-
-            //Kullanicilar user = _userService.GetUserClaims(User);
 
             string currentUser = User.Identity.Name;
             migrantTVVM.isTakipListesi_MigrantTV.KullaniciAdi = currentUser;
@@ -159,7 +172,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(migrantTVVM.isTakipListesi_migrantTV);
         }
 
         // POST: MigrantTV/Delete/5

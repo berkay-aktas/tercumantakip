@@ -4,25 +4,40 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TercumanTakipWeb.Models;
 using TercumanTakipWeb.Models.ViewModels;
-
+using TercumanTakipWeb.Services;
 namespace TercumanTakipWeb.Controllers
 {
     [Authorize]
     public class YaziliCeviriController : Controller
     {
         private readonly TercumanTakipDbContext _context;
+        public IUserService _userService { get; set; }
 
-        public YaziliCeviriController(TercumanTakipDbContext context)
+        public YaziliCeviriController(TercumanTakipDbContext context, IUserService userService)
         {
             _context = context;
+            _userService = userService;
         }
 
         // GET: YaziliCeviri
         public async Task<IActionResult> Index(int? id)
         {
+            var userInfo = _userService.GetUserClaims(User);
+
             YaziliCeviriVM yaziliCeviriVM = new YaziliCeviriVM();
             yaziliCeviriVM.isTakipListesi_YaziliCeviri = await _context.isTakipListesi_YaziliCeviri.FindAsync(id);
-            yaziliCeviriVM.isTakipListesi_YaziliCeviriList = await _context.isTakipListesi_YaziliCeviri.ToListAsync();
+
+            if (userInfo.Seviye == "10")
+            {
+                yaziliCeviriVM.isTakipListesi_YaziliCeviriList = await _context.isTakipListesi_YaziliCeviri.Where(x => x.KullaniciAdi == userInfo.UserName).ToListAsync();
+
+            }
+            else
+            {
+                yaziliCeviriVM.isTakipListesi_YaziliCeviriList = await _context.isTakipListesi_YaziliCeviri.ToListAsync();
+
+            }
+
             var dilListDB = await _context.DilListesi.ToListAsync();
             yaziliCeviriVM.DilListesi = dilListDB.Select(x => x.Dil).ToList();
             return View(yaziliCeviriVM);
@@ -80,8 +95,6 @@ namespace TercumanTakipWeb.Controllers
                 languageList = languageList.Remove(languageList.Length - 1);
             }
             yaziliCeviriVM.isTakipListesi_YaziliCeviri.Dil = languageList;
-
-            //Kullanicilar user = _userService.GetUserClaims(User);
 
             string currentUser = User.Identity.Name;
             yaziliCeviriVM.isTakipListesi_YaziliCeviri.KullaniciAdi = currentUser;
@@ -158,7 +171,6 @@ namespace TercumanTakipWeb.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            //return View(yaziliCeviriVM.isTakipListesi_yaziliCeviri);
         }
 
         // POST: YaziliCeviri/Delete/5

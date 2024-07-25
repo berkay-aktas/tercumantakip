@@ -10,6 +10,5 @@ namespace TercumanTakipWeb.Models
         public string? KullaniciAdi { get; set; }
         [Display(Name = "Kayıt Tarihi")]
         public DateTime KayitTarihi { get; set; }=DateTime.Now;
-      
     }
 }

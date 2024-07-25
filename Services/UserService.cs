@@ -65,36 +65,5 @@ namespace TercumanTakipWeb.Services
                 return null;
             }
         }
-        //public Users GetUserClaims(ClaimsPrincipal user)
-        //{
-        //    var userId = Convert.ToInt32(user.FindFirstValue(ClaimTypes.NameIdentifier));
-        //    var userName = user.FindFirstValue(ClaimTypes.Name);
-
-        //    // Fetch the user from the database
-        //    var getUser = _context.Users.FirstOrDefault(u => u.id == userId);
-
-        //    if (getUser == null)
-        //    {
-        //        throw new Exception("User not found");
-        //    }
-
-        //    return new Users
-        //    {
-        //        id = getUser.id,
-        //        KullaniciAdi = getUser.KullaniciAdi,
-        //        Seviye = getUser.Seviye
-        //    };
-        //}
-
-        //public List<Claim> SetUserClaims(Users user)
-        //{
-        //    List<Claim> claims = new()
-        //    {
-        //        new Claim(ClaimTypes.NameIdentifier, user.id.ToString()),
-        //        new Claim(ClaimTypes.Name, user.KullaniciAdi),
-        //        new Claim("Seviye", user.Seviye.ToString())
-        //    };
-        //    return claims;
-        //}
     }
 }

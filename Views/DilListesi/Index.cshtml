@@ -50,7 +50,7 @@
                         type: 'POST',
                         success: function (response) {
                             Swal.fire('Silindi!', 'Kayıt başarıyla silindi.', 'success').then(() => {
-                                location.reload(); // Refresh the page to reflect the deletion
+                                location.reload();
                             });
                         },
                         error: function (xhr, status, error) {
