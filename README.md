@@ -1,4 +1,4 @@
-# Tercüman Takip (TercumanTakip)
+# Tercüman Takip
 
 A web-based management system for tracking translators, assignments, and related workflows — built with **ASP.NET Core MVC** and **Entity Framework Core**.
 
