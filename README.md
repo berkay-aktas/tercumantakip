@@ -2,13 +2,18 @@
 
 A web-based management system for tracking translators, assignments, and related workflows — built with **ASP.NET Core MVC** and **Entity Framework Core**.
 
-[![.NET](https://img.shields.io/badge/.NET-6.0+-blue.svg)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)]()
+[![.NET](https://img.shields.io/badge/.NET-6.0+-blue.svg)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 > **Note:** The `appsettings.json` file currently contains a sample/local connection string.  
 > Move all real credentials or environment-specific secrets out of source control. See the [Configuration & Security](#configuration--security) section below.
 
 ---
+
+## Tech Stack
+- **Backend:** ASP.NET Core MVC (C#)
+- **Database:** Entity Framework Core + SQL Server
+- **Frontend:** Razor Views, Bootstrap, SCSS
 
 ## Table of Contents
 - [Overview](#overview)
