@@ -3,4 +3,4 @@
 *.razor linguist-language=C#
 
 # Ignore static assets from language stats
-wwwroot/* linguist-vendored
+wwwroot/** linguist-vendored
